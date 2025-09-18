@@ -17,7 +17,11 @@ import zipfile
 import io
 from typing import Dict, List, Optional
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    template_folder=os.path.join(os.path.dirname(__file__), 'templates'),
+    static_folder=os.path.join(os.path.dirname(__file__), 'static')
+)
 app.secret_key = os.environ.get('SECRET_KEY', secrets.token_hex(32))
 
 # Configuration
