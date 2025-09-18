@@ -1,0 +1,12 @@
+[server]
+host = "0.0.0.0"
+port = 3000
+
+[logging]
+# Path to the log file for request/response logging
+log_file = "/opt/apps/OneClickBRMRust/logs/requests.log"
+# Log level: error, warn, info, debug, trace
+log_level = "info"
+# Whether to also log to console
+console_logging = true
+

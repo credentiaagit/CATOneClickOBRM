@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Health Check - Oracle BRM Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    {% include 'dashboard_header.html' %}
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h2><i class="fas fa-heartbeat"></i> Health Check</h2>
+            <p>Monitor server health and connectivity</p>
+        </div>
+        
+        <div class="section">
+            <div class="form-group">
+                <button id="health-check-btn" class="btn btn-primary" onclick="performHealthCheck()">
+                    <i class="fas fa-heartbeat"></i> Check Server Health
+                </button>
+            </div>
+            
+            <div id="health-result" class="output-container" style="display: none;">
+                <h3>Health Check Result</h3>
+                <div id="health-output" class="output-content"></div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function performHealthCheck() {
+    const btn = document.getElementById('health-check-btn');
+    const resultContainer = document.getElementById('health-result');
+    const outputContent = document.getElementById('health-output');
+    
+    // Show loading state
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+    
+    try {
+        const response = await fetch('/api/health');
+        const result = await response.json();
+        
+        resultContainer.style.display = 'block';
+        outputContent.textContent = JSON.stringify(result, null, 2);
+        
+        // Show success message
+        showNotification('Health check completed', 'success');
+    } catch (error) {
+        resultContainer.style.display = 'block';
+        outputContent.textContent = `Error: ${error.message}`;
+        showNotification('Health check failed', 'error');
+    } finally {
+        // Reset button
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-heartbeat"></i> Check Server Health';
+    }
+}
+
+function showNotification(message, type) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `flash-message ${type}`;
+    notification.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+        <span>${message}</span>
+        <button class="flash-close" onclick="this.parentElement.remove()">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    // Add to page
+    let container = document.getElementById('flash-messages');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'flash-messages';
+        document.body.insertBefore(container, document.body.firstChild);
+    }
+    container.appendChild(notification);
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 5000);
+}
+</script>
+{% endblock %}
+

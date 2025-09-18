@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle BRM Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Authentication Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <div class="auth-container">
+                <div class="auth-tabs">
+                    <button class="tab-btn active" onclick="showAuthTab('signin')">Sign In</button>
+                    <button class="tab-btn" onclick="showAuthTab('signup')">Sign Up</button>
+                </div>
+                
+                <!-- Sign In Form -->
+                <div id="signin-form" class="auth-form active">
+                    <h2><i class="fas fa-sign-in-alt"></i> Sign In</h2>
+                    <form id="signinForm">
+                        <div class="form-group">
+                            <label for="signin-username">Username</label>
+                            <input type="text" id="signin-username" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signin-password">Password</label>
+                            <input type="password" id="signin-password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Sign In
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Sign Up Form -->
+                <div id="signup-form" class="auth-form">
+                    <h2><i class="fas fa-user-plus"></i> Sign Up</h2>
+                    <form id="signupForm">
+                        <div class="form-group">
+                            <label for="signup-username">Username</label>
+                            <input type="text" id="signup-username" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-email">Email</label>
+                            <input type="email" id="signup-email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+                            <input type="password" id="signup-password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-confirm-password">Confirm Password</label>
+                            <input type="password" id="signup-confirm-password" name="confirmPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i> Sign Up
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard" class="dashboard" style="display: none;">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="sidebar-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1><i class="fas fa-database"></i> Oracle BRM Dashboard</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span id="user-name">John Doe</span>
+                    <div class="user-dropdown">
+                        <button class="btn-icon" onclick="toggleUserDropdown()">
+                            <i class="fas fa-user-circle"></i>
+                        </button>
+                        <div class="dropdown-menu" id="userDropdown">
+                            <a href="#" onclick="showAdminPanel()" id="adminMenuItem" style="display: none;">
+                                <i class="fas fa-users-cog"></i> Admin Panel
+                            </a>
+                            <a href="#" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <nav class="nav-menu">
+                <div class="nav-section">
+                    <h3><i class="fas fa-tachometer-alt"></i> Dashboard</h3>
+                    <ul>
+                        <li><a href="#" onclick="showPage('overview')" class="nav-link active">
+                            <i class="fas fa-chart-dashboard"></i> Overview
+                        </a></li>
+                        <li><a href="#" onclick="showPage('health')" class="nav-link">
+                            <i class="fas fa-heartbeat"></i> Health Check
+                        </a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3><i class="fas fa-server"></i> Session Info</h3>
+                    <ul>
+                        <li><a href="#" onclick="showPage('session-info')" class="nav-link">
+                            <i class="fas fa-info-circle"></i> Current Session
+                        </a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3><i class="fas fa-database"></i> BRM Field Management</h3>
+                    <ul>
+                        <li><a href="#" onclick="showPage('load-fields')" class="nav-link">
+                            <i class="fas fa-upload"></i> Load BRM Fields
+                        </a></li>
+                        <li><a href="#" onclick="showPage('view-fields')" class="nav-link">
+                            <i class="fas fa-list"></i> View Session Fields
+                        </a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3><i class="fas fa-code"></i> PODL Conversion</h3>
+                    <ul>
+                        <li><a href="#" onclick="showPage('field-spec-podl')" class="nav-link">
+                            <i class="fas fa-file-code"></i> Field Spec to PODL
+                        </a></li>
+                        <li><a href="#" onclick="showPage('class-spec-podl')" class="nav-link">
+                            <i class="fas fa-sitemap"></i> Class Spec to PODL
+                        </a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3><i class="fas fa-exchange-alt"></i> FLIST Conversion</h3>
+                    <ul>
+                        <li><a href="#" onclick="showPage('flist-to-code')" class="nav-link">
+                            <i class="fas fa-code"></i> FLIST to C Code
+                        </a></li>
+                        <li><a href="#" onclick="showPage('flist-to-xml')" class="nav-link">
+                            <i class="fas fa-file-code"></i> FLIST to XML
+                        </a></li>
+                        <li><a href="#" onclick="showPage('flist-to-json')" class="nav-link">
+                            <i class="fas fa-file-alt"></i> FLIST to JSON
+                        </a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h3><i class="fas fa-chart-line"></i> Analytics</h3>
+                    <ul>
+                        <li><a href="#" onclick="showPage('call-stack')" class="nav-link">
+                            <i class="fas fa-layer-group"></i> Call Stack Visualization
+                        </a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="page-content">
+                <!-- Overview Page (Default) -->
+                <div id="overview-page" class="page active">
+                    <div class="page-header">
+                        <h2><i class="fas fa-chart-dashboard"></i> Dashboard Overview</h2>
+                        <p>Welcome to the Oracle BRM Management Dashboard</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="active-sessions">0</h3>
+                                <p>Active Sessions</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="loaded-fields">0</h3>
+                                <p>Loaded Fields</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="conversions-today">0</h3>
+                                <p>Conversions Today</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="server-status">Online</h3>
+                                <p>Server Status</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-sections">
+                        <div class="section">
+                            <h3><i class="fas fa-clock"></i> Recent Activity</h3>
+                            <div class="activity-list" id="recent-activity">
+                                <div class="activity-item">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span>Dashboard initialized</span>
+                                    <small>Just now</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="section">
+                            <h3><i class="fas fa-tools"></i> Quick Actions</h3>
+                            <div class="quick-actions">
+                                <button class="btn btn-primary" onclick="showPage('load-fields')">
+                                    <i class="fas fa-upload"></i> Load BRM Fields
+                                </button>
+                                <button class="btn btn-secondary" onclick="showPage('session-info')">
+                                    <i class="fas fa-info-circle"></i> Session Info
+                                </button>
+                                <button class="btn btn-accent" onclick="showPage('health')">
+                                    <i class="fas fa-heartbeat"></i> Health Check
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Admin Panel Modal -->
+        <div id="adminModal" class="modal">
+            <div class="modal-content large">
+                <div class="modal-header">
+                    <h2><i class="fas fa-users-cog"></i> Admin Panel</h2>
+                    <button class="close-btn" onclick="closeAdminPanel()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="admin-tabs">
+                        <button class="tab-btn active" onclick="showAdminTab('users')">
+                            <i class="fas fa-users"></i> Manage Users
+                        </button>
+                        <button class="tab-btn" onclick="showAdminTab('sessions')">
+                            <i class="fas fa-server"></i> Active Sessions
+                        </button>
+                    </div>
+                    
+                    <!-- Users Management -->
+                    <div id="admin-users" class="admin-section active">
+                        <div class="admin-actions">
+                            <button class="btn btn-primary" onclick="showAddUserForm()">
+                                <i class="fas fa-plus"></i> Add User
+                            </button>
+                            <button class="btn btn-secondary" onclick="refreshUserList()">
+                                <i class="fas fa-sync"></i> Refresh
+                            </button>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Last Login</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="user-table-body">
+                                    <!-- User data will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Sessions Management -->
+                    <div id="admin-sessions" class="admin-section">
+                        <div class="admin-actions">
+                            <button class="btn btn-secondary" onclick="refreshSessionList()">
+                                <i class="fas fa-sync"></i> Refresh Sessions
+                            </button>
+                            <button class="btn btn-danger" onclick="clearAllSessions()">
+                                <i class="fas fa-trash"></i> Clear All Sessions
+                            </button>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Session ID</th>
+                                        <th>Created At</th>
+                                        <th>Status</th>
+                                        <th>Fields Loaded</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="session-table-body">
+                                    <!-- Session data will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Change Password Modal -->
+        <div id="passwordModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-key"></i> Change Password</h2>
+                    <button class="close-btn" onclick="closePasswordModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="changePasswordForm">
+                        <input type="hidden" id="change-password-username" name="username">
+                        <div class="form-group">
+                            <label for="new-password">New Password</label>
+                            <input type="password" id="new-password" name="newPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-new-password">Confirm New Password</label>
+                            <input type="password" id="confirm-new-password" name="confirmNewPassword" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="closePasswordModal()">Cancel</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Update Password
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <script src="auth.js"></script>
+    <script src="dashboard.js"></script>
+    <script src="admin.js"></script>
+    <script src="api.js"></script>
+</body>
+</html>

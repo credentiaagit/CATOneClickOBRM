@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+
+{% block title %}User Management - Oracle BRM Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    {% include 'dashboard_header.html' %}
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h2><i class="fas fa-users"></i> User Management</h2>
+            <p>Manage system users and permissions</p>
+        </div>
+        
+        <div class="admin-actions">
+            <button class="btn btn-primary" onclick="showAddUserForm()">
+                <i class="fas fa-plus"></i> Add User
+            </button>
+            <a href="{{ url_for('admin_users') }}" class="btn btn-secondary">
+                <i class="fas fa-sync"></i> Refresh
+            </a>
+        </div>
+        
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Last Login</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users.values() %}
+                    <tr>
+                        <td><strong>{{ user.username }}</strong></td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <span class="status-badge {{ 'active' if user.role == 'admin' else 'inactive' }}">
+                                {{ user.role.upper() }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="status-badge {{ 'active' if user.status == 'active' else 'inactive' }}">
+                                {{ user.status.upper() }}
+                            </span>
+                        </td>
+                        <td>{{ user.last_login | datetime if user.last_login else 'Never' }}</td>
+                        <td>{{ user.created_at | datetime }}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-sm btn-secondary" onclick="editUser('{{ user.username }}')" title="Edit User">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-primary" onclick="changePassword('{{ user.username }}')" title="Change Password">
+                                    <i class="fas fa-key"></i>
+                                </button>
+                                {% if user.username != 'admin' %}
+                                <button class="btn btn-sm {{ 'btn-warning' if user.status == 'active' else 'btn-accent' }}" 
+                                        onclick="toggleUserStatus('{{ user.username }}', '{{ user.status }}')" 
+                                        title="{{ 'Deactivate' if user.status == 'active' else 'Activate' }} User">
+                                    <i class="fas fa-{{ 'ban' if user.status == 'active' else 'check' }}"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteUser('{{ user.username }}')" title="Delete User">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<!-- Add User Modal -->
+<div id="addUserModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-user-plus"></i> Add New User</h2>
+            <button class="close-btn" onclick="closeAddUserForm()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" action="{{ url_for('admin_add_user') }}">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select id="role" name="role" required>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddUserForm()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add User
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit User Modal -->
+<div id="editUserModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-user-edit"></i> Edit User</h2>
+            <button class="close-btn" onclick="closeEditUserForm()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="editUserForm" method="POST">
+                <div class="form-group">
+                    <label for="edit-username">Username</label>
+                    <input type="text" id="edit-username" name="username" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="edit-email">Email</label>
+                    <input type="email" id="edit-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-role">Role</label>
+                    <select id="edit-role" name="role" required>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeEditUserForm()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Update User
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Change Password Modal -->
+<div id="changePasswordModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-key"></i> Change Password</h2>
+            <button class="close-btn" onclick="closeChangePasswordForm()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="changePasswordForm" method="POST">
+                <input type="hidden" id="password-username" name="username">
+                <div class="form-group">
+                    <label for="new-password">New Password</label>
+                    <input type="password" id="new-password" name="new_password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm New Password</label>
+                    <input type="password" id="confirm-password" name="confirm_password" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeChangePasswordForm()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Update Password
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function showAddUserForm() {
+    document.getElementById('addUserModal').style.display = 'block';
+}
+
+function closeAddUserForm() {
+    document.getElementById('addUserModal').style.display = 'none';
+}
+
+function editUser(username) {
+    // Get user data from the table
+    const row = event.target.closest('tr');
+    const cells = row.cells;
+    
+    document.getElementById('edit-username').value = cells[0].textContent.trim();
+    document.getElementById('edit-email').value = cells[1].textContent.trim();
+    
+    // Set role based on the badge text
+    const roleBadge = cells[2].querySelector('.status-badge').textContent.trim();
+    document.getElementById('edit-role').value = roleBadge.toLowerCase();
+    
+    // Set form action
+    document.getElementById('editUserForm').action = `/admin/edit-user/${username}`;
+    
+    document.getElementById('editUserModal').style.display = 'block';
+}
+
+function closeEditUserForm() {
+    document.getElementById('editUserModal').style.display = 'none';
+}
+
+function changePassword(username) {
+    document.getElementById('password-username').value = username;
+    document.getElementById('changePasswordForm').action = `/admin/change-password/${username}`;
+    document.getElementById('changePasswordModal').style.display = 'block';
+}
+
+function closeChangePasswordForm() {
+    document.getElementById('changePasswordModal').style.display = 'none';
+}
+
+function toggleUserStatus(username, currentStatus) {
+    if (confirm(`Are you sure you want to ${currentStatus === 'active' ? 'deactivate' : 'activate'} user "${username}"?`)) {
+        window.location.href = `/admin/toggle-user-status/${username}`;
+    }
+}
+
+function deleteUser(username) {
+    if (confirm(`Are you sure you want to delete user "${username}"? This action cannot be undone.`)) {
+        window.location.href = `/admin/delete-user/${username}`;
+    }
+}
+
+// Close modals when clicking outside
+window.onclick = function(event) {
+    const modals = ['addUserModal', 'editUserModal', 'changePasswordModal'];
+    modals.forEach(modalId => {
+        const modal = document.getElementById(modalId);
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+};
+</script>
+{% endblock %}
+

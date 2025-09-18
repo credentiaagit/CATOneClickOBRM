@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Error {{ error_code }} - Oracle BRM Dashboard{% endblock %}
+
+{% block content %}
+<div class="error-container">
+    <div class="error-content">
+        <div class="error-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h1>{{ error_code }}</h1>
+        <h2>{{ error_message }}</h2>
+        <p>Sorry, something went wrong. Please try again or contact support if the problem persists.</p>
+        <div class="error-actions">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-primary">
+                <i class="fas fa-home"></i> Go to Dashboard
+            </a>
+            <a href="javascript:history.back()" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Go Back
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

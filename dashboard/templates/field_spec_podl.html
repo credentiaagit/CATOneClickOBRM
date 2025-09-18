@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Field Spec to PODL - Oracle BRM Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    {% include 'dashboard_header.html' %}
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h2><i class="fas fa-file-code"></i> Field Spec to PODL</h2>
+            <p>Convert field specifications to PODL format using your current session</p>
+        </div>
+        
+        <div class="section">
+            <div class="session-info-bar">
+                <i class="fas fa-info-circle"></i>
+                <span>Using Session: <strong>{{ session.get('brm_session_id', 'No active session') }}</strong></span>
+            </div>
+            
+            <form method="POST">
+                <div class="form-group">
+                    <label for="field_spec_data">Field Specification</label>
+                    <textarea id="field_spec_data" name="field_spec_data" required 
+                              placeholder="field_name|description|data_type|field_id"></textarea>
+                    <small>Format: field_name|description|data_type|field_id (one per line)</small>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-exchange-alt"></i> Convert to PODL
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="loadSampleFieldSpec()">
+                        <i class="fas fa-file-alt"></i> Load Sample
+                    </button>
+                </div>
+            </form>
+            
+            {% if result %}
+            <div class="output-container">
+                <h3>PODL Output</h3>
+                <div class="output-content">
+                    {% if result.error %}
+                        <div class="error-message">{{ result.error }}</div>
+                    {% else %}
+                        <pre>{{ result.podl_content or result | tojson(indent=2) }}</pre>
+                    {% endif %}
+                </div>
+                <div class="output-actions">
+                    <button class="btn btn-secondary" onclick="copyToClipboard('output-content')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                    <button class="btn btn-accent" onclick="downloadContent('output-content', 'field-spec.podl')">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function loadSampleFieldSpec() {
+    const sampleData = `PIN_FLD_ACCOUNT_OBJ|Account Object Reference|PIN_FLDT_POID|1
+PIN_FLD_ACCOUNT_NO|Account Number|PIN_FLDT_STR|2
+PIN_FLD_ACCOUNT_TYPE|Account Type|PIN_FLDT_ENUM|3`;
+    document.getElementById('field_spec_data').value = sampleData;
+}
+
+function copyToClipboard(elementId) {
+    const element = document.getElementById(elementId);
+    const text = element.textContent;
+    
+    navigator.clipboard.writeText(text).then(() => {
+        showNotification('Content copied to clipboard', 'success');
+    }).catch(() => {
+        showNotification('Failed to copy content', 'error');
+    });
+}
+
+function downloadContent(elementId, filename) {
+    const element = document.getElementById(elementId);
+    const content = element.textContent;
+    
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
+    window.URL.revokeObjectURL(url);
+    showNotification(`Downloaded ${filename}`, 'success');
+}
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `flash-message ${type}`;
+    notification.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+        <span>${message}</span>
+        <button class="flash-close" onclick="this.parentElement.remove()">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    let container = document.getElementById('flash-messages');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'flash-messages';
+        document.body.insertBefore(container, document.body.firstChild);
+    }
+    container.appendChild(notification);
+    
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 5000);
+}
+</script>
+{% endblock %}
+

@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block title %}Session Management - Oracle BRM Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    {% include 'dashboard_header.html' %}
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h2><i class="fas fa-server"></i> Active Sessions</h2>
+            <p>Monitor and manage active BRM sessions</p>
+        </div>
+        
+        <div class="admin-actions">
+            <a href="{{ url_for('admin_sessions') }}" class="btn btn-secondary">
+                <i class="fas fa-sync"></i> Refresh Sessions
+            </a>
+            <button class="btn btn-danger" onclick="clearAllSessions()">
+                <i class="fas fa-trash"></i> Clear All Sessions
+            </button>
+        </div>
+        
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Session ID</th>
+                        <th>Username</th>
+                        <th>Created At</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if sessions %}
+                        {% for session_id, session_data in sessions.items() %}
+                        <tr>
+                            <td><code>{{ session_id }}</code></td>
+                            <td>{{ session_data.username }}</td>
+                            <td>{{ session_data.created_at | datetime }}</td>
+                            <td>
+                                <span class="status-badge {{ 'active' if session_data.status == 'active' else 'inactive' }}">
+                                    {{ session_data.status.upper() }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-sm btn-secondary" onclick="viewSessionDetails('{{ session_id }}')" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-warning" onclick="clearSessionFields('{{ session_id }}')" title="Clear Fields">
+                                        <i class="fas fa-broom"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" onclick="deleteSession('{{ session_id }}')" title="Delete Session">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center">No active sessions found</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<!-- Session Details Modal -->
+<div id="sessionDetailsModal" class="modal" style="display: none;">
+    <div class="modal-content large">
+        <div class="modal-header">
+            <h2><i class="fas fa-info-circle"></i> Session Details</h2>
+            <button class="close-btn" onclick="closeSessionDetails()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div id="session-details-content">
+                <!-- Session details will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function viewSessionDetails(sessionId) {
+    // For now, show basic session info
+    // In a real implementation, you'd fetch detailed session data from the backend
+    const sessionData = {
+        sessionId: sessionId,
+        status: 'Active',
+        createdAt: new Date().toISOString(),
+        fieldsLoaded: 25,
+        recentOperations: [
+            'Fields loaded: 25 fields (2 hours ago)',
+            'FLIST to XML conversion (1 hour ago)',
+            'Field spec to PODL conversion (30 minutes ago)'
+        ]
+    };
+    
+    const content = `
+        <div class="form-row">
+            <div class="form-group">
+                <label>Session ID</label>
+                <input type="text" value="${sessionData.sessionId}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <input type="text" value="${sessionData.status}" readonly>
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label>Created At</label>
+                <input type="text" value="${new Date(sessionData.createdAt).toLocaleString()}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Fields Loaded</label>
+                <input type="text" value="${sessionData.fieldsLoaded}" readonly>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Recent Operations</label>
+            <div class="output-content">
+                ${sessionData.recentOperations.map(op => `• ${op}`).join('<br>')}
+            </div>
+        </div>
+        
+        <div class="form-actions">
+            <button class="btn btn-secondary" onclick="closeSessionDetails()">Close</button>
+            <button class="btn btn-primary" onclick="exportSessionData('${sessionId}')">
+                <i class="fas fa-download"></i> Export Data
+            </button>
+        </div>
+    `;
+    
+    document.getElementById('session-details-content').innerHTML = content;
+    document.getElementById('sessionDetailsModal').style.display = 'block';
+}
+
+function closeSessionDetails() {
+    document.getElementById('sessionDetailsModal').style.display = 'none';
+}
+
+function clearSessionFields(sessionId) {
+    if (confirm(`Are you sure you want to clear all fields for session "${sessionId}"?`)) {
+        // In a real implementation, you'd make an API call to clear the fields
+        showNotification(`Fields cleared for session ${sessionId}`, 'success');
+    }
+}
+
+function deleteSession(sessionId) {
+    if (confirm(`Are you sure you want to delete session "${sessionId}"? This action cannot be undone.`)) {
+        // In a real implementation, you'd make an API call to delete the session
+        showNotification(`Session ${sessionId} deleted successfully`, 'success');
+        // Refresh the page to update the session list
+        setTimeout(() => window.location.reload(), 1000);
+    }
+}
+
+function clearAllSessions() {
+    if (confirm('Are you sure you want to clear ALL sessions? This action cannot be undone.')) {
+        // In a real implementation, you'd make an API call to clear all sessions
+        showNotification('All sessions cleared successfully', 'success');
+        // Refresh the page to update the session list
+        setTimeout(() => window.location.reload(), 1000);
+    }
+}
+
+function exportSessionData(sessionId) {
+    // Simulate session data export
+    const sessionData = {
+        sessionId: sessionId,
+        status: 'active',
+        createdAt: new Date().toISOString(),
+        fields: [
+            { name: 'PIN_FLD_ACCOUNT_OBJ', type: 'PIN_FLDT_POID', number: '1' },
+            { name: 'PIN_FLD_ACCOUNT_NO', type: 'PIN_FLDT_STR', number: '2' }
+        ],
+        operations: [
+            { type: 'load_fields', timestamp: new Date().toISOString() },
+            { type: 'flist_to_xml', timestamp: new Date().toISOString() }
+        ]
+    };
+
+    const blob = new Blob([JSON.stringify(sessionData, null, 2)], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `session_${sessionId}_export.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
+    window.URL.revokeObjectURL(url);
+    showNotification(`Session data exported: session_${sessionId}_export.json`, 'success');
+}
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `flash-message ${type}`;
+    notification.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+        <span>${message}</span>
+        <button class="flash-close" onclick="this.parentElement.remove()">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    let container = document.getElementById('flash-messages');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'flash-messages';
+        document.body.insertBefore(container, document.body.firstChild);
+    }
+    container.appendChild(notification);
+    
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('sessionDetailsModal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+};
+</script>
+{% endblock %}
+

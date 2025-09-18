@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block title %}Call Stack Visualization - Oracle BRM Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    {% include 'dashboard_header.html' %}
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h2><i class="fas fa-layer-group"></i> Call Stack Visualization</h2>
+            <p>Upload and visualize Oracle BRM call stack traces</p>
+        </div>
+        
+        <div class="section">
+            <form method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="file">Call Stack ZIP File</label>
+                    <div class="file-input-container">
+                        <input type="file" id="file" name="file" accept=".zip" required class="file-input">
+                        <label for="file" class="file-input-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Choose ZIP file or drag & drop</span>
+                        </label>
+                    </div>
+                    <div id="file-info" class="file-info" style="display: none;"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="threshold">Highlight Threshold (seconds)</label>
+                    <input type="number" id="threshold" name="threshold" 
+                           step="0.001" min="0" placeholder="0.005" value="0.005">
+                    <small>Operations exceeding this duration will be highlighted (optional)</small>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-chart-line"></i> Generate Visualization
+                    </button>
+                </div>
+            </form>
+            
+            {% if iframe_src or html_content or download_file %}
+            <div class="output-container">
+                <h3>Call Stack Analysis</h3>
+                <div class="output-content">
+                    {% if uploaded_filename or used_threshold %}
+                    <div class="analysis-meta" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 6px;">
+                        {% if uploaded_filename %}
+                        <div><i class="fas fa-file-archive"></i> <strong>File:</strong> {{ uploaded_filename }}</div>
+                        {% endif %}
+                        {% if used_threshold %}
+                        <div><i class="fas fa-stopwatch"></i> <strong>Threshold:</strong> {{ used_threshold }} s</div>
+                        {% endif %}
+                        <div style="margin-left: auto; display: flex; gap: 8px; align-items: center;">
+                            <button id="toggle-fullscreen" class="btn btn-secondary btn-sm" type="button">
+                                <i class="fas fa-expand"></i> Fullscreen
+                            </button>
+                            {% if download_file %}
+                            <a href="{{ url_for('download_file', filename=download_file) }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-download"></i> Download Analysis
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div id="analysis-pane" class="analysis-pane" style="position: relative;">
+                    {% if iframe_src %}
+                        <iframe id="analysis-iframe" src="{{ iframe_src }}" style="width: 100%; height: 80vh; border: 1px solid #ddd; border-radius: 8px; background: #fff;"></iframe>
+                    {% elif html_content %}
+                        <div id="analysis-inline" style="width: 100%; min-height: 80vh; border: 1px solid #ddd; border-radius: 8px; background: #fff; padding: 10px; overflow: auto;">{{ html_content|safe }}</div>
+                    {% else %}
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fas fa-download" style="font-size: 3rem; color: #28a745; margin-bottom: 15px;"></i>
+                            <h3>Analysis Complete!</h3>
+                            <p>Your call stack analysis has been generated.</p>
+                        </div>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// File input handler
+document.addEventListener('change', function(e) {
+    if (e.target.id === 'file') {
+        const file = e.target.files[0];
+        const fileInfo = document.getElementById('file-info');
+        
+        if (file) {
+            fileInfo.style.display = 'block';
+            fileInfo.innerHTML = `
+                <i class="fas fa-file-archive"></i>
+                <strong>${file.name}</strong> (${(file.size / 1024).toFixed(1)} KB)
+            `;
+        } else {
+            fileInfo.style.display = 'none';
+        }
+    }
+});
+
+// Drag and drop functionality
+const fileInput = document.getElementById('file');
+const fileLabel = document.querySelector('.file-input-label');
+
+fileLabel.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    fileLabel.classList.add('drag-over');
+});
+
+fileLabel.addEventListener('dragleave', function(e) {
+    e.preventDefault();
+    fileLabel.classList.remove('drag-over');
+});
+
+fileLabel.addEventListener('drop', function(e) {
+    e.preventDefault();
+    fileLabel.classList.remove('drag-over');
+    
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+        fileInput.files = files;
+        fileInput.dispatchEvent(new Event('change'));
+    }
+});
+
+// Fullscreen toggle for analysis pane
+document.addEventListener('DOMContentLoaded', function() {
+    const pane = document.getElementById('analysis-pane');
+    const toggleBtn = document.getElementById('toggle-fullscreen');
+    if (!pane || !toggleBtn) return;
+
+    let isFullscreen = false;
+
+    function enterFullscreen() {
+        pane.classList.add('fullscreen');
+        pane.style.position = 'fixed';
+        pane.style.top = '0';
+        pane.style.left = '0';
+        pane.style.width = '100vw';
+        pane.style.height = '100vh';
+        pane.style.zIndex = '2000';
+        pane.style.background = '#fff';
+        const iframe = document.getElementById('analysis-iframe');
+        const inlineDiv = document.getElementById('analysis-inline');
+        if (iframe) iframe.style.height = '100vh';
+        if (inlineDiv) inlineDiv.style.minHeight = '100vh';
+        toggleBtn.innerHTML = '<i class="fas fa-compress"></i> Exit Fullscreen';
+        isFullscreen = true;
+    }
+
+    function exitFullscreen() {
+        pane.classList.remove('fullscreen');
+        pane.style.position = 'relative';
+        pane.style.width = '100%';
+        pane.style.height = '';
+        pane.style.zIndex = '';
+        pane.style.background = '';
+        const iframe = document.getElementById('analysis-iframe');
+        const inlineDiv = document.getElementById('analysis-inline');
+        if (iframe) iframe.style.height = '70vh';
+        if (inlineDiv) inlineDiv.style.minHeight = '70vh';
+        toggleBtn.innerHTML = '<i class="fas fa-expand"></i> Fullscreen';
+        isFullscreen = false;
+    }
+
+    toggleBtn.addEventListener('click', function() {
+        if (!isFullscreen) {
+            enterFullscreen();
+        } else {
+            exitFullscreen();
+        }
+    });
+});
+</script>
+{% endblock %}
+

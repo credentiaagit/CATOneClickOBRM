@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Oracle BRM Dashboard{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-modal">
+        <div class="auth-header">
+            <h1><i class="fas fa-database"></i> Oracle BRM Dashboard</h1>
+            <p>Create a new account to access BRM management tools</p>
+        </div>
+        
+        <div class="auth-tabs">
+            <a href="{{ url_for('login') }}" class="tab-btn">
+                <i class="fas fa-sign-in-alt"></i> Sign In
+            </a>
+            <a href="{{ url_for('register') }}" class="tab-btn active">
+                <i class="fas fa-user-plus"></i> Sign Up
+            </a>
+        </div>
+        
+        <form method="POST" class="auth-form">
+            <div class="form-group">
+                <label for="username">
+                    <i class="fas fa-user"></i> Username
+                </label>
+                <input type="text" id="username" name="username" required 
+                       placeholder="Choose a username" autocomplete="username">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">
+                    <i class="fas fa-envelope"></i> Email
+                </label>
+                <input type="email" id="email" name="email" required 
+                       placeholder="Enter your email" autocomplete="email">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">
+                    <i class="fas fa-lock"></i> Password
+                </label>
+                <input type="password" id="password" name="password" required 
+                       placeholder="Choose a password (min 6 characters)" autocomplete="new-password">
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm_password">
+                    <i class="fas fa-lock"></i> Confirm Password
+                </label>
+                <input type="password" id="confirm_password" name="confirm_password" required 
+                       placeholder="Confirm your password" autocomplete="new-password">
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-full">
+                <i class="fas fa-user-plus"></i> Create Account
+            </button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Already have an account? <a href="{{ url_for('login') }}">Sign in here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

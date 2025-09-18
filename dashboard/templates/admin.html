@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Panel - Oracle BRM Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    {% include 'dashboard_header.html' %}
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h2><i class="fas fa-users-cog"></i> Admin Panel</h2>
+            <p>Manage users and system settings</p>
+        </div>
+        
+        <div class="admin-tabs">
+            <a href="{{ url_for('admin_users') }}" class="tab-btn active">
+                <i class="fas fa-users"></i> Manage Users
+            </a>
+            <a href="{{ url_for('admin_sessions') }}" class="tab-btn">
+                <i class="fas fa-server"></i> Active Sessions
+            </a>
+        </div>
+        
+        <div class="admin-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>{{ users|length }}</h3>
+                        <p>Total Users</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>{{ users.values() | selectattr('status', 'equalto', 'active') | list | length }}</h3>
+                        <p>Active Users</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>{{ sessions|length }}</h3>
+                        <p>Active Sessions</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>{{ users.values() | selectattr('role', 'equalto', 'admin') | list | length }}</h3>
+                        <p>Admin Users</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3><i class="fas fa-tools"></i> Quick Actions</h3>
+                <div class="quick-actions">
+                    <a href="{{ url_for('admin_users') }}" class="btn btn-primary">
+                        <i class="fas fa-users"></i> Manage Users
+                    </a>
+                    <a href="{{ url_for('admin_sessions') }}" class="btn btn-secondary">
+                        <i class="fas fa-server"></i> View Sessions
+                    </a>
+                    <a href="{{ url_for('health_check') }}" class="btn btn-accent">
+                        <i class="fas fa-heartbeat"></i> System Health
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}
+

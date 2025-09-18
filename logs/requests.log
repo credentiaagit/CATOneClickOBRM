@@ -1,0 +1,658 @@
+[2025-09-16 12:32:40 UTC] REQUEST: GET / from Some(127.0.0.1:60366)
+[2025-09-16 12:32:40 UTC] RESPONSE: GET / -> 404 Not Found
+[2025-09-16 12:32:46 UTC] REQUEST: GET /health from Some(223.185.133.138:32478)
+[2025-09-16 12:32:46 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-16 12:32:53 UTC] REQUEST: GET /status/123 from Some(223.185.133.138:32543)
+[2025-09-16 12:32:53 UTC] RESPONSE: GET /status/123 -> 404 Not Found
+[2025-09-16 12:33:02 UTC] REQUEST: GET /register/123 from Some(223.185.133.138:12245)
+[2025-09-16 12:33:02 UTC] RESPONSE: GET /register/123 -> 404 Not Found
+[2025-09-16 12:51:50 UTC] REQUEST: GET /health from Some(223.185.133.138:19288)
+[2025-09-16 12:51:50 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-16 12:52:19 UTC] REQUEST: GET /register/123 from Some(223.185.133.138:17356)
+[2025-09-16 12:52:19 UTC] RESPONSE: GET /register/123 -> 404 Not Found
+[2025-09-16 12:52:56 UTC] REQUEST: GET /status/ABCD from Some(223.185.133.138:21414)
+[2025-09-16 12:52:56 UTC] RESPONSE: GET /status/ABCD -> 404 Not Found
+[2025-09-16 12:53:42 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:13244)
+[2025-09-16 12:53:42 UTC] RESPONSE: POST /register/ABC -> 200 OK
+[2025-09-16 12:53:45 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:13244)
+[2025-09-16 12:53:45 UTC] RESPONSE: POST /register/ABC -> 409 Conflict
+[2025-09-16 12:53:55 UTC] REQUEST: GET /status/ABCD from Some(223.185.133.138:18530)
+[2025-09-16 12:53:55 UTC] RESPONSE: GET /status/ABCD -> 404 Not Found
+[2025-09-16 12:53:56 UTC] REQUEST: GET /status/ABCD from Some(223.185.133.138:18530)
+[2025-09-16 12:53:56 UTC] RESPONSE: GET /status/ABCD -> 404 Not Found
+[2025-09-16 12:54:01 UTC] REQUEST: GET /status/ABC from Some(223.185.133.138:25234)
+[2025-09-16 12:54:01 UTC] RESPONSE: GET /status/ABC -> 200 OK
+[2025-09-16 12:54:16 UTC] REQUEST: POST /unregister/ABC from Some(223.185.133.138:4382)
+[2025-09-16 12:54:16 UTC] RESPONSE: POST /unregister/ABC -> 404 Not Found
+[2025-09-16 12:54:44 UTC] REQUEST: DELETE /unregister/ABC from Some(223.185.133.138:7248)
+[2025-09-16 12:54:44 UTC] RESPONSE: DELETE /unregister/ABC -> 200 OK
+[2025-09-16 12:54:45 UTC] REQUEST: DELETE /unregister/ABC from Some(223.185.133.138:7248)
+[2025-09-16 12:54:45 UTC] RESPONSE: DELETE /unregister/ABC -> 404 Not Found
+[2025-09-16 12:55:16 UTC] REQUEST: GET /health from Some(223.185.133.138:17256)
+[2025-09-16 12:55:16 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-16 12:55:32 UTC] REQUEST: GET /health from Some(223.185.133.138:31314)
+[2025-09-16 12:55:32 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-16 12:55:35 UTC] REQUEST: GET /health from Some(223.185.133.138:31314)
+[2025-09-16 12:55:35 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-16 12:55:38 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:31314)
+[2025-09-16 12:55:38 UTC] RESPONSE: POST /register/ABC -> 200 OK
+[2025-09-16 12:55:39 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:31314)
+[2025-09-16 12:55:39 UTC] RESPONSE: POST /register/ABC -> 409 Conflict
+[2025-09-16 13:06:32 UTC] REQUEST: POST /obrm/load_obrm_fields/test_session from Some(127.0.0.1:50284)
+[2025-09-16 13:06:32 UTC] RESPONSE: POST /obrm/load_obrm_fields/test_session -> 404 Not Found
+[2025-09-16 13:06:50 UTC] REQUEST: POST /obrm/load_obrm_fields/test_session from Some(127.0.0.1:50652)
+[2025-09-16 13:06:50 UTC] RESPONSE: POST /obrm/load_obrm_fields/test_session -> 404 Not Found
+[2025-09-16 13:06:57 UTC] REQUEST: GET /health from Some(127.0.0.1:40086)
+[2025-09-16 13:06:57 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-16 13:07:05 UTC] REQUEST: GET /obrm/get_session_fields/test_session from Some(127.0.0.1:56936)
+[2025-09-16 13:07:05 UTC] RESPONSE: GET /obrm/get_session_fields/test_session -> 404 Not Found
+[2025-09-16 13:14:18 UTC] REQUEST: POST /load_obrm_fields/ABC from Some(223.185.133.138:18346)
+[2025-09-16 13:14:18 UTC] RESPONSE: POST /load_obrm_fields/ABC -> 404 Not Found
+[2025-09-16 13:14:39 UTC] REQUEST: GET /health from Some(223.185.133.138:19415)
+[2025-09-16 13:14:39 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-16 13:14:42 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:19415)
+[2025-09-16 13:14:42 UTC] RESPONSE: POST /register/ABC -> 200 OK
+[2025-09-16 13:14:45 UTC] REQUEST: POST /load_obrm_fields/ABC from Some(223.185.133.138:19415)
+[2025-09-16 13:14:45 UTC] RESPONSE: POST /load_obrm_fields/ABC -> 404 Not Found
+[2025-09-16 13:15:32 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:15755)
+[2025-09-16 13:15:32 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-16 13:16:01 UTC] REQUEST: GET /get_session_fields/ABC from Some(223.185.133.138:31056)
+[2025-09-16 13:16:01 UTC] RESPONSE: GET /get_session_fields/ABC -> 404 Not Found
+[2025-09-16 13:16:10 UTC] REQUEST: GET /obrm/get_session_fields/ABC from Some(223.185.133.138:32583)
+[2025-09-16 13:16:10 UTC] RESPONSE: GET /obrm/get_session_fields/ABC -> 200 OK
+[2025-09-16 13:23:30 UTC] REQUEST: POST /obrm/convert_fld_spec_to_podl from Some(127.0.0.1:36490)
+[2025-09-16 13:23:30 UTC] RESPONSE: POST /obrm/convert_fld_spec_to_podl -> 200 OK
+[2025-09-16 13:23:39 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:11857)
+[2025-09-16 13:23:39 UTC] RESPONSE: POST /register/ABC -> 200 OK
+[2025-09-16 13:23:47 UTC] REQUEST: POST /obrm/convert_fld_spec_to_podl from Some(223.185.133.138:3402)
+[2025-09-16 13:23:47 UTC] RESPONSE: POST /obrm/convert_fld_spec_to_podl -> 200 OK
+[2025-09-16 13:32:58 UTC] REQUEST: POST /obrm/load_obrm_fields/test_session from Some(127.0.0.1:59280)
+[2025-09-16 13:32:58 UTC] RESPONSE: POST /obrm/load_obrm_fields/test_session -> 200 OK
+[2025-09-16 13:33:08 UTC] REQUEST: POST /obrm/convert_class_spec_to_podl/test_session from Some(127.0.0.1:51378)
+[2025-09-16 13:33:08 UTC] RESPONSE: POST /obrm/convert_class_spec_to_podl/test_session -> 200 OK
+[2025-09-16 13:33:47 UTC] REQUEST: POST /obrm/convert_class_spec_to_podl/empty_session from Some(127.0.0.1:49216)
+[2025-09-16 13:33:47 UTC] RESPONSE: POST /obrm/convert_class_spec_to_podl/empty_session -> 400 Bad Request
+[2025-09-16 13:35:18 UTC] REQUEST: POST //obrm/convert_class_spec_to_podl/ABC from Some(223.185.133.138:31350)
+[2025-09-16 13:35:18 UTC] RESPONSE: POST //obrm/convert_class_spec_to_podl/ABC -> 404 Not Found
+[2025-09-16 13:35:26 UTC] REQUEST: POST /obrm/convert_class_spec_to_podl/ABC from Some(223.185.133.138:16804)
+[2025-09-16 13:35:26 UTC] RESPONSE: POST /obrm/convert_class_spec_to_podl/ABC -> 400 Bad Request
+[2025-09-16 13:35:36 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:2070)
+[2025-09-16 13:35:36 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-16 13:35:40 UTC] REQUEST: POST /obrm/convert_class_spec_to_podl/ABC from Some(223.185.133.138:2070)
+[2025-09-16 13:35:40 UTC] RESPONSE: POST /obrm/convert_class_spec_to_podl/ABC -> 200 OK
+[2025-09-16 17:59:19 UTC] REQUEST: GET / from Some(66.132.153.134:40976)
+[2025-09-16 17:59:19 UTC] RESPONSE: GET / -> 404 Not Found
+[2025-09-16 17:59:30 UTC] REQUEST: GET / from Some(66.132.153.134:55666)
+[2025-09-16 17:59:30 UTC] RESPONSE: GET / -> 404 Not Found
+[2025-09-16 17:59:53 UTC] REQUEST: GET /sitemap.xml from Some(66.132.153.134:36664)
+[2025-09-16 17:59:53 UTC] RESPONSE: GET /sitemap.xml -> 404 Not Found
+[2025-09-17 03:26:58 UTC] REQUEST: GET / from Some(20.65.224.144:51602)
+[2025-09-17 03:26:58 UTC] RESPONSE: GET / -> 404 Not Found
+[2025-09-17 04:40:48 UTC] REQUEST: POST /obrm/convert_class_spec_to_podl/ABC from Some(223.185.133.138:11580)
+[2025-09-17 04:40:48 UTC] RESPONSE: POST /obrm/convert_class_spec_to_podl/ABC -> 200 OK
+[2025-09-17 04:40:52 UTC] REQUEST: GET /health from Some(223.185.133.138:11580)
+[2025-09-17 04:40:52 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 04:40:58 UTC] REQUEST: GET /obrm/get_session_fields/ABC from Some(223.185.133.138:26391)
+[2025-09-17 04:40:58 UTC] RESPONSE: GET /obrm/get_session_fields/ABC -> 200 OK
+[2025-09-17 04:42:10 UTC] REQUEST: GET /obrm/get_session_fields/ABC0 from Some(223.185.133.138:9562)
+[2025-09-17 04:42:10 UTC] RESPONSE: GET /obrm/get_session_fields/ABC0 -> 404 Not Found
+[2025-09-17 04:44:48 UTC] REQUEST: POST /obrm/convert_fld_spec_to_podl from Some(223.185.133.138:2622)
+[2025-09-17 04:44:48 UTC] RESPONSE: POST /obrm/convert_fld_spec_to_podl -> 200 OK
+[2025-09-17 04:44:49 UTC] REQUEST: POST /obrm/convert_fld_spec_to_podl from Some(223.185.133.138:2622)
+[2025-09-17 04:44:49 UTC] RESPONSE: POST /obrm/convert_fld_spec_to_podl -> 200 OK
+[2025-09-17 04:44:50 UTC] REQUEST: POST /obrm/convert_fld_spec_to_podl from Some(223.185.133.138:2622)
+[2025-09-17 04:44:50 UTC] RESPONSE: POST /obrm/convert_fld_spec_to_podl -> 200 OK
+[2025-09-17 04:44:50 UTC] REQUEST: POST /obrm/convert_fld_spec_to_podl from Some(223.185.133.138:2622)
+[2025-09-17 04:44:50 UTC] RESPONSE: POST /obrm/convert_fld_spec_to_podl -> 200 OK
+[2025-09-17 04:44:51 UTC] REQUEST: POST /obrm/convert_fld_spec_to_podl from Some(223.185.133.138:2622)
+[2025-09-17 04:44:51 UTC] RESPONSE: POST /obrm/convert_fld_spec_to_podl -> 200 OK
+[2025-09-17 04:46:06 UTC] REQUEST: POST /obrm/convert_fld_spec_to_podl from Some(223.185.133.138:23049)
+[2025-09-17 04:46:06 UTC] RESPONSE: POST /obrm/convert_fld_spec_to_podl -> 404 Not Found
+[2025-09-17 04:46:14 UTC] REQUEST: POST /obrm/convert_fld_spec_to_podl from Some(223.185.133.138:23023)
+[2025-09-17 04:46:14 UTC] RESPONSE: POST /obrm/convert_fld_spec_to_podl -> 404 Not Found
+[2025-09-17 04:46:20 UTC] REQUEST: POST /obrm/convert_fld_spec_to_podl/ABC from Some(223.185.133.138:5115)
+[2025-09-17 04:46:20 UTC] RESPONSE: POST /obrm/convert_fld_spec_to_podl/ABC -> 400 Bad Request
+[2025-09-17 04:46:28 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:5921)
+[2025-09-17 04:46:28 UTC] RESPONSE: POST /register/ABC -> 200 OK
+[2025-09-17 04:46:33 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:2323)
+[2025-09-17 04:46:33 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-17 04:46:41 UTC] REQUEST: POST /obrm/convert_fld_spec_to_podl/ABC from Some(223.185.133.138:12836)
+[2025-09-17 04:46:41 UTC] RESPONSE: POST /obrm/convert_fld_spec_to_podl/ABC -> 200 OK
+[2025-09-17 04:55:19 UTC] REQUEST: POST /obrm/convert_fld_spec_to_podl/ABC from Some(223.185.133.138:1091)
+[2025-09-17 04:55:19 UTC] RESPONSE: POST /obrm/convert_fld_spec_to_podl/ABC -> 400 Bad Request
+[2025-09-17 04:55:22 UTC] REQUEST: GET /health from Some(223.185.133.138:1091)
+[2025-09-17 04:55:22 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 04:55:25 UTC] REQUEST: GET /obrm/get_session_fields/ABC0 from Some(223.185.133.138:1091)
+[2025-09-17 04:55:25 UTC] RESPONSE: GET /obrm/get_session_fields/ABC0 -> 404 Not Found
+[2025-09-17 04:55:28 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:1091)
+[2025-09-17 04:55:28 UTC] RESPONSE: POST /register/ABC -> 200 OK
+[2025-09-17 04:55:32 UTC] REQUEST: GET /obrm/get_session_fields/ABC0 from Some(223.185.133.138:1091)
+[2025-09-17 04:55:32 UTC] RESPONSE: GET /obrm/get_session_fields/ABC0 -> 404 Not Found
+[2025-09-17 04:55:36 UTC] REQUEST: GET /obrm/get_session_fields/ABC from Some(223.185.133.138:1091)
+[2025-09-17 04:55:36 UTC] RESPONSE: GET /obrm/get_session_fields/ABC -> 404 Not Found
+[2025-09-17 04:55:39 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:1091)
+[2025-09-17 04:55:39 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-17 04:55:45 UTC] REQUEST: GET /obrm/get_session_fields/ABC from Some(223.185.133.138:17261)
+[2025-09-17 04:55:45 UTC] RESPONSE: GET /obrm/get_session_fields/ABC -> 200 OK
+[2025-09-17 05:10:40 UTC] REQUEST: GET /health from Some(223.185.133.138:21498)
+[2025-09-17 05:10:40 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 05:10:44 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:21498)
+[2025-09-17 05:10:44 UTC] RESPONSE: POST /register/ABC -> 200 OK
+[2025-09-17 05:10:50 UTC] REQUEST: POST /obrm/convert_flist2code/ABC from Some(223.185.133.138:27596)
+[2025-09-17 05:10:50 UTC] RESPONSE: POST /obrm/convert_flist2code/ABC -> 400 Bad Request
+[2025-09-17 05:10:59 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:9412)
+[2025-09-17 05:10:59 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-17 05:11:05 UTC] REQUEST: POST /obrm/convert_flist2code/ABC from Some(223.185.133.138:7821)
+[2025-09-17 05:11:05 UTC] RESPONSE: POST /obrm/convert_flist2code/ABC -> 200 OK
+[2025-09-17 05:13:54 UTC] REQUEST: POST /obrm/convert_flist2xml/ABC from Some(223.185.133.138:6246)
+[2025-09-17 05:13:54 UTC] RESPONSE: POST /obrm/convert_flist2xml/ABC -> 400 Bad Request
+[2025-09-17 05:14:00 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:22087)
+[2025-09-17 05:14:00 UTC] RESPONSE: POST /register/ABC -> 200 OK
+[2025-09-17 05:14:05 UTC] REQUEST: POST /obrm/convert_flist2xml/ABC from Some(223.185.133.138:26770)
+[2025-09-17 05:14:05 UTC] RESPONSE: POST /obrm/convert_flist2xml/ABC -> 400 Bad Request
+[2025-09-17 05:14:05 UTC] REQUEST: POST /obrm/convert_flist2xml/ABC from Some(223.185.133.138:26770)
+[2025-09-17 05:14:05 UTC] RESPONSE: POST /obrm/convert_flist2xml/ABC -> 400 Bad Request
+[2025-09-17 05:14:09 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:26770)
+[2025-09-17 05:14:09 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-17 05:14:13 UTC] REQUEST: POST /obrm/convert_flist2xml/ABC from Some(223.185.133.138:26770)
+[2025-09-17 05:14:13 UTC] RESPONSE: POST /obrm/convert_flist2xml/ABC -> 200 OK
+[2025-09-17 05:15:34 UTC] REQUEST: POST /obrm/convert_flist2jsonABC from Some(223.185.133.138:13365)
+[2025-09-17 05:15:34 UTC] RESPONSE: POST /obrm/convert_flist2jsonABC -> 404 Not Found
+[2025-09-17 05:15:38 UTC] REQUEST: POST /obrm/convert_flist2json/ABC from Some(223.185.133.138:13365)
+[2025-09-17 05:15:38 UTC] RESPONSE: POST /obrm/convert_flist2json/ABC -> 200 OK
+[2025-09-17 05:34:14 UTC] REQUEST: GET /health from Some(223.185.133.138:11425)
+[2025-09-17 05:34:14 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 05:34:15 UTC] REQUEST: GET /health from Some(223.185.133.138:12216)
+[2025-09-17 05:34:15 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 05:34:23 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:21750)
+[2025-09-17 05:34:23 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 400 Bad Request
+[2025-09-17 05:34:44 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:29812)
+[2025-09-17 05:34:44 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 400 Bad Request
+[2025-09-17 05:35:22 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:1520)
+[2025-09-17 05:35:22 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-17 05:37:11 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:30534)
+[2025-09-17 05:37:11 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 400 Bad Request
+[2025-09-17 05:37:15 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:30534)
+[2025-09-17 05:37:15 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 400 Bad Request
+[2025-09-17 05:37:38 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:11790)
+[2025-09-17 05:37:38 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 05:43:10 UTC] REQUEST: POST /register/test-session from Some(127.0.0.1:58098)
+[2025-09-17 05:43:10 UTC] RESPONSE: POST /register/test-session -> 200 OK
+[2025-09-17 05:43:12 UTC] REQUEST: POST /obrm/load_obrm_fields/test-session from Some(127.0.0.1:58110)
+[2025-09-17 05:43:12 UTC] RESPONSE: POST /obrm/load_obrm_fields/test-session -> 200 OK
+[2025-09-17 05:43:19 UTC] REQUEST: POST /obrm/view_call_stack/test-session from Some(127.0.0.1:58124)
+[2025-09-17 05:43:19 UTC] RESPONSE: POST /obrm/view_call_stack/test-session -> 200 OK
+[2025-09-17 05:47:49 UTC] REQUEST: POST /obrm/load_obrm_fields/test-session2 from Some(127.0.0.1:48418)
+[2025-09-17 05:47:49 UTC] RESPONSE: POST /obrm/load_obrm_fields/test-session2 -> 200 OK
+[2025-09-17 05:48:36 UTC] REQUEST: GET /health from Some(127.0.0.1:59498)
+[2025-09-17 05:48:36 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 05:48:43 UTC] REQUEST: POST /register/test-session3 from Some(127.0.0.1:35890)
+[2025-09-17 05:48:43 UTC] RESPONSE: POST /register/test-session3 -> 200 OK
+[2025-09-17 05:48:46 UTC] REQUEST: POST /obrm/load_obrm_fields/test-session3 from Some(127.0.0.1:35904)
+[2025-09-17 05:48:46 UTC] RESPONSE: POST /obrm/load_obrm_fields/test-session3 -> 200 OK
+[2025-09-17 05:49:35 UTC] REQUEST: POST /obrm/view_call_stack/test-session3 from Some(127.0.0.1:38472)
+[2025-09-17 05:49:35 UTC] RESPONSE: POST /obrm/view_call_stack/test-session3 -> 200 OK
+[2025-09-17 05:52:09 UTC] REQUEST: POST /obrm/view_call_stack/test-final from Some(127.0.0.1:45248)
+[2025-09-17 05:52:09 UTC] RESPONSE: POST /obrm/view_call_stack/test-final -> 400 Bad Request
+[2025-09-17 05:52:38 UTC] REQUEST: POST /register/test-final2 from Some(127.0.0.1:49246)
+[2025-09-17 05:52:38 UTC] RESPONSE: POST /register/test-final2 -> 200 OK
+[2025-09-17 05:52:43 UTC] REQUEST: POST /obrm/load_obrm_fields/test-final2 from Some(127.0.0.1:36490)
+[2025-09-17 05:52:43 UTC] RESPONSE: POST /obrm/load_obrm_fields/test-final2 -> 200 OK
+[2025-09-17 05:52:44 UTC] REQUEST: POST /obrm/view_call_stack/test-final2 from Some(127.0.0.1:36504)
+[2025-09-17 05:52:44 UTC] RESPONSE: POST /obrm/view_call_stack/test-final2 -> 200 OK
+[2025-09-17 05:53:57 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:7009)
+[2025-09-17 05:53:57 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 400 Bad Request
+[2025-09-17 05:54:04 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:17167)
+[2025-09-17 05:54:04 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-17 05:54:12 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:17707)
+[2025-09-17 05:54:13 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 06:01:31 UTC] REQUEST: GET /health from Some(127.0.0.1:46768)
+[2025-09-17 06:01:31 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 06:01:33 UTC] REQUEST: POST /register/zip-test from Some(127.0.0.1:46782)
+[2025-09-17 06:01:33 UTC] RESPONSE: POST /register/zip-test -> 200 OK
+[2025-09-17 06:01:46 UTC] REQUEST: POST /obrm/load_obrm_fields/zip-test from Some(127.0.0.1:40182)
+[2025-09-17 06:01:46 UTC] RESPONSE: POST /obrm/load_obrm_fields/zip-test -> 200 OK
+[2025-09-17 06:01:48 UTC] REQUEST: POST /obrm/view_call_stack/zip-test from Some(127.0.0.1:40196)
+[2025-09-17 06:01:48 UTC] RESPONSE: POST /obrm/view_call_stack/zip-test -> 200 OK
+[2025-09-17 06:03:22 UTC] REQUEST: GET /health from Some(223.185.133.138:4291)
+[2025-09-17 06:03:22 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 06:03:30 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:27380)
+[2025-09-17 06:03:30 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-17 06:03:34 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:27380)
+[2025-09-17 06:03:35 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 06:09:40 UTC] REQUEST: GET /health from Some(223.185.133.138:21653)
+[2025-09-17 06:09:40 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 06:09:51 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:13374)
+[2025-09-17 06:09:51 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-17 06:10:09 UTC] REQUEST: POST /obrm/convert_flist2code/ABC from Some(223.185.133.138:11921)
+[2025-09-17 06:10:09 UTC] RESPONSE: POST /obrm/convert_flist2code/ABC -> 200 OK
+[2025-09-17 06:10:15 UTC] REQUEST: GET /obrm/get_session_fields/ABC from Some(223.185.133.138:28312)
+[2025-09-17 06:10:15 UTC] RESPONSE: GET /obrm/get_session_fields/ABC -> 200 OK
+[2025-09-17 06:10:27 UTC] REQUEST: POST /obrm/convert_fld_spec_to_podl/ABC from Some(223.185.133.138:16989)
+[2025-09-17 06:10:27 UTC] RESPONSE: POST /obrm/convert_fld_spec_to_podl/ABC -> 200 OK
+[2025-09-17 06:25:07 UTC] REQUEST: POST /register/timing-test from Some(127.0.0.1:46626)
+[2025-09-17 06:25:07 UTC] RESPONSE: POST /register/timing-test -> 200 OK
+[2025-09-17 06:25:31 UTC] REQUEST: POST /obrm/load_obrm_fields/timing-test from Some(127.0.0.1:54818)
+[2025-09-17 06:25:31 UTC] RESPONSE: POST /obrm/load_obrm_fields/timing-test -> 200 OK
+[2025-09-17 06:29:38 UTC] REQUEST: POST /register/timing-fixed from Some(127.0.0.1:33516)
+[2025-09-17 06:29:38 UTC] RESPONSE: POST /register/timing-fixed -> 200 OK
+[2025-09-17 06:29:38 UTC] REQUEST: POST /obrm/load_obrm_fields/timing-fixed from Some(127.0.0.1:33526)
+[2025-09-17 06:29:38 UTC] RESPONSE: POST /obrm/load_obrm_fields/timing-fixed -> 200 OK
+[2025-09-17 06:29:39 UTC] REQUEST: POST /obrm/view_call_stack/timing-fixed from Some(127.0.0.1:33528)
+[2025-09-17 06:29:39 UTC] RESPONSE: POST /obrm/view_call_stack/timing-fixed -> 200 OK
+[2025-09-17 06:36:37 UTC] REQUEST: GET /health from Some(223.185.133.138:12614)
+[2025-09-17 06:36:37 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 06:36:41 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:12614)
+[2025-09-17 06:36:41 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-17 06:36:46 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:12614)
+[2025-09-17 06:36:46 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 06:38:02 UTC] REQUEST: GET /health from Some(223.185.133.138:13561)
+[2025-09-17 06:38:02 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 06:38:05 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:13561)
+[2025-09-17 06:38:06 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-17 06:46:30 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:3334)
+[2025-09-17 06:46:30 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 06:47:05 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:21829)
+[2025-09-17 06:47:05 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 400 Bad Request
+[2025-09-17 06:47:46 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:30015)
+[2025-09-17 06:47:47 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 07:07:22 UTC] REQUEST: POST /register/large-test from Some(127.0.0.1:48956)
+[2025-09-17 07:07:22 UTC] RESPONSE: POST /register/large-test -> 200 OK
+[2025-09-17 07:07:22 UTC] REQUEST: POST /obrm/load_obrm_fields/large-test from Some(127.0.0.1:48964)
+[2025-09-17 07:07:22 UTC] RESPONSE: POST /obrm/load_obrm_fields/large-test -> 200 OK
+[2025-09-17 07:07:23 UTC] REQUEST: POST /obrm/view_call_stack/large-test from Some(127.0.0.1:48968)
+[2025-09-17 07:07:23 UTC] RESPONSE: POST /obrm/view_call_stack/large-test -> 200 OK
+[2025-09-17 07:08:05 UTC] REQUEST: POST /register/very-large-test from Some(127.0.0.1:52746)
+[2025-09-17 07:08:05 UTC] RESPONSE: POST /register/very-large-test -> 200 OK
+[2025-09-17 07:08:05 UTC] REQUEST: POST /obrm/load_obrm_fields/very-large-test from Some(127.0.0.1:52758)
+[2025-09-17 07:08:05 UTC] RESPONSE: POST /obrm/load_obrm_fields/very-large-test -> 200 OK
+[2025-09-17 07:08:30 UTC] REQUEST: POST /register/manual-large from Some(127.0.0.1:55176)
+[2025-09-17 07:08:30 UTC] RESPONSE: POST /register/manual-large -> 200 OK
+[2025-09-17 07:08:30 UTC] REQUEST: POST /obrm/load_obrm_fields/manual-large from Some(127.0.0.1:55184)
+[2025-09-17 07:08:30 UTC] RESPONSE: POST /obrm/load_obrm_fields/manual-large -> 200 OK
+[2025-09-17 07:08:32 UTC] REQUEST: POST /obrm/view_call_stack/manual-large from Some(127.0.0.1:60932)
+[2025-09-17 07:08:32 UTC] RESPONSE: POST /obrm/view_call_stack/manual-large -> 200 OK
+[2025-09-17 07:11:12 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:11382)
+[2025-09-17 07:11:12 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 400 Bad Request
+[2025-09-17 07:12:12 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:10293)
+[2025-09-17 07:12:12 UTC] RESPONSE: POST /register/ABC -> 200 OK
+[2025-09-17 07:12:16 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:10293)
+[2025-09-17 07:12:16 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-17 07:12:25 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:11611)
+[2025-09-17 07:12:26 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 07:15:58 UTC] REQUEST: POST /register/debug-test from Some(127.0.0.1:48572)
+[2025-09-17 07:15:58 UTC] RESPONSE: POST /register/debug-test -> 200 OK
+[2025-09-17 07:15:58 UTC] REQUEST: POST /obrm/load_obrm_fields/debug-test from Some(127.0.0.1:48574)
+[2025-09-17 07:15:58 UTC] RESPONSE: POST /obrm/load_obrm_fields/debug-test -> 200 OK
+[2025-09-17 07:16:30 UTC] REQUEST: POST /register/debug-test2 from Some(127.0.0.1:46800)
+[2025-09-17 07:16:30 UTC] RESPONSE: POST /register/debug-test2 -> 200 OK
+[2025-09-17 07:16:30 UTC] REQUEST: POST /obrm/load_obrm_fields/debug-test2 from Some(127.0.0.1:46808)
+[2025-09-17 07:16:30 UTC] RESPONSE: POST /obrm/load_obrm_fields/debug-test2 -> 200 OK
+[2025-09-17 07:16:31 UTC] REQUEST: POST /obrm/view_call_stack/debug-test2 from Some(127.0.0.1:45928)
+[2025-09-17 07:16:31 UTC] RESPONSE: POST /obrm/view_call_stack/debug-test2 -> 200 OK
+[2025-09-17 07:17:48 UTC] REQUEST: POST /register/clean-test from Some(127.0.0.1:48852)
+[2025-09-17 07:17:48 UTC] RESPONSE: POST /register/clean-test -> 200 OK
+[2025-09-17 07:17:51 UTC] REQUEST: POST /obrm/load_obrm_fields/clean-test from Some(127.0.0.1:50190)
+[2025-09-17 07:17:51 UTC] RESPONSE: POST /obrm/load_obrm_fields/clean-test -> 200 OK
+[2025-09-17 07:19:26 UTC] REQUEST: POST /register/final-test from Some(127.0.0.1:35982)
+[2025-09-17 07:19:26 UTC] RESPONSE: POST /register/final-test -> 200 OK
+[2025-09-17 07:19:26 UTC] REQUEST: POST /obrm/load_obrm_fields/final-test from Some(127.0.0.1:35990)
+[2025-09-17 07:19:26 UTC] RESPONSE: POST /obrm/load_obrm_fields/final-test -> 200 OK
+[2025-09-17 07:19:28 UTC] REQUEST: POST /obrm/view_call_stack/final-test from Some(127.0.0.1:35992)
+[2025-09-17 07:19:28 UTC] RESPONSE: POST /obrm/view_call_stack/final-test -> 200 OK
+[2025-09-17 07:23:22 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:15799)
+[2025-09-17 07:23:22 UTC] RESPONSE: POST /register/ABC -> 200 OK
+[2025-09-17 07:23:25 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:15799)
+[2025-09-17 07:23:26 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-17 07:23:28 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:15799)
+[2025-09-17 07:23:28 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 07:23:59 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:30497)
+[2025-09-17 07:23:59 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 07:33:56 UTC] REQUEST: POST /register/real-test from Some(127.0.0.1:36544)
+[2025-09-17 07:33:56 UTC] RESPONSE: POST /register/real-test -> 200 OK
+[2025-09-17 07:33:56 UTC] REQUEST: POST /obrm/load_obrm_fields/real-test from Some(127.0.0.1:36560)
+[2025-09-17 07:33:56 UTC] RESPONSE: POST /obrm/load_obrm_fields/real-test -> 200 OK
+[2025-09-17 07:37:33 UTC] REQUEST: POST /register/tree-fix-test from Some(127.0.0.1:50642)
+[2025-09-17 07:37:33 UTC] RESPONSE: POST /register/tree-fix-test -> 200 OK
+[2025-09-17 07:37:33 UTC] REQUEST: POST /obrm/load_obrm_fields/tree-fix-test from Some(127.0.0.1:50654)
+[2025-09-17 07:37:33 UTC] RESPONSE: POST /obrm/load_obrm_fields/tree-fix-test -> 200 OK
+[2025-09-17 07:37:35 UTC] REQUEST: POST /obrm/view_call_stack/tree-fix-test from Some(127.0.0.1:50656)
+[2025-09-17 07:37:35 UTC] RESPONSE: POST /obrm/view_call_stack/tree-fix-test -> 200 OK
+[2025-09-17 07:39:17 UTC] REQUEST: GET /health from Some(223.185.133.138:16995)
+[2025-09-17 07:39:17 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 07:39:20 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:16995)
+[2025-09-17 07:39:20 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-17 07:41:52 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:10136)
+[2025-09-17 07:41:52 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 07:47:31 UTC] REQUEST: POST /register/timing-fix from Some(127.0.0.1:34632)
+[2025-09-17 07:47:31 UTC] RESPONSE: POST /register/timing-fix -> 200 OK
+[2025-09-17 07:47:31 UTC] REQUEST: POST /obrm/load_obrm_fields/timing-fix from Some(127.0.0.1:34638)
+[2025-09-17 07:47:31 UTC] RESPONSE: POST /obrm/load_obrm_fields/timing-fix -> 200 OK
+[2025-09-17 07:47:33 UTC] REQUEST: POST /obrm/view_call_stack/timing-fix from Some(127.0.0.1:34642)
+[2025-09-17 07:47:33 UTC] RESPONSE: POST /obrm/view_call_stack/timing-fix -> 200 OK
+[2025-09-17 07:49:04 UTC] REQUEST: POST /register/final-parsing-fix from Some(127.0.0.1:53040)
+[2025-09-17 07:49:04 UTC] RESPONSE: POST /register/final-parsing-fix -> 200 OK
+[2025-09-17 07:49:04 UTC] REQUEST: POST /obrm/load_obrm_fields/final-parsing-fix from Some(127.0.0.1:53054)
+[2025-09-17 07:49:04 UTC] RESPONSE: POST /obrm/load_obrm_fields/final-parsing-fix -> 200 OK
+[2025-09-17 07:49:05 UTC] REQUEST: POST /obrm/view_call_stack/final-parsing-fix from Some(127.0.0.1:53062)
+[2025-09-17 07:49:05 UTC] RESPONSE: POST /obrm/view_call_stack/final-parsing-fix -> 200 OK
+[2025-09-17 07:50:42 UTC] REQUEST: POST /register/exit-debug from Some(127.0.0.1:35270)
+[2025-09-17 07:50:42 UTC] RESPONSE: POST /register/exit-debug -> 200 OK
+[2025-09-17 07:50:42 UTC] REQUEST: POST /obrm/load_obrm_fields/exit-debug from Some(127.0.0.1:35278)
+[2025-09-17 07:50:42 UTC] RESPONSE: POST /obrm/load_obrm_fields/exit-debug -> 200 OK
+[2025-09-17 07:52:12 UTC] REQUEST: POST /register/ultimate-test from Some(127.0.0.1:46566)
+[2025-09-17 07:52:12 UTC] RESPONSE: POST /register/ultimate-test -> 200 OK
+[2025-09-17 07:52:12 UTC] REQUEST: POST /obrm/load_obrm_fields/ultimate-test from Some(127.0.0.1:46568)
+[2025-09-17 07:52:12 UTC] RESPONSE: POST /obrm/load_obrm_fields/ultimate-test -> 200 OK
+[2025-09-17 07:52:12 UTC] REQUEST: POST /obrm/view_call_stack/ultimate-test from Some(127.0.0.1:46582)
+[2025-09-17 07:52:12 UTC] RESPONSE: POST /obrm/view_call_stack/ultimate-test -> 200 OK
+[2025-09-17 07:53:11 UTC] REQUEST: GET /health from Some(223.185.133.138:18461)
+[2025-09-17 07:53:11 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 07:53:14 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:18461)
+[2025-09-17 07:53:14 UTC] RESPONSE: POST /register/ABC -> 200 OK
+[2025-09-17 07:53:17 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:18461)
+[2025-09-17 07:53:17 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-17 07:53:20 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:18461)
+[2025-09-17 07:53:20 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 07:55:38 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:4373)
+[2025-09-17 07:55:38 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 07:57:54 UTC] REQUEST: POST /register/chidhu-test from Some(127.0.0.1:50414)
+[2025-09-17 07:57:54 UTC] RESPONSE: POST /register/chidhu-test -> 200 OK
+[2025-09-17 07:57:54 UTC] REQUEST: POST /obrm/load_obrm_fields/chidhu-test from Some(127.0.0.1:50428)
+[2025-09-17 07:57:54 UTC] RESPONSE: POST /obrm/load_obrm_fields/chidhu-test -> 200 OK
+[2025-09-17 07:58:15 UTC] REQUEST: GET / from Some(147.185.132.84:50598)
+[2025-09-17 07:58:15 UTC] RESPONSE: GET / -> 404 Not Found
+[2025-09-17 07:58:21 UTC] REQUEST: POST /obrm/view_call_stack/chidhu-test from Some(127.0.0.1:59030)
+[2025-09-17 07:58:21 UTC] RESPONSE: POST /obrm/view_call_stack/chidhu-test -> 200 OK
+[2025-09-17 07:58:42 UTC] REQUEST: POST /register/credentiaa-test from Some(127.0.0.1:58152)
+[2025-09-17 07:58:42 UTC] RESPONSE: POST /register/credentiaa-test -> 200 OK
+[2025-09-17 07:58:42 UTC] REQUEST: POST /obrm/load_obrm_fields/credentiaa-test from Some(127.0.0.1:58154)
+[2025-09-17 07:58:42 UTC] RESPONSE: POST /obrm/load_obrm_fields/credentiaa-test -> 200 OK
+[2025-09-17 07:58:45 UTC] REQUEST: POST /obrm/view_call_stack/credentiaa-test from Some(127.0.0.1:58166)
+[2025-09-17 07:58:45 UTC] RESPONSE: POST /obrm/view_call_stack/credentiaa-test -> 400 Bad Request
+[2025-09-17 07:59:05 UTC] REQUEST: POST /register/working-test from Some(127.0.0.1:48572)
+[2025-09-17 07:59:05 UTC] RESPONSE: POST /register/working-test -> 200 OK
+[2025-09-17 07:59:05 UTC] REQUEST: POST /obrm/load_obrm_fields/working-test from Some(127.0.0.1:48580)
+[2025-09-17 07:59:05 UTC] RESPONSE: POST /obrm/load_obrm_fields/working-test -> 200 OK
+[2025-09-17 07:59:35 UTC] REQUEST: POST /obrm/view_call_stack/working-test from Some(127.0.0.1:42596)
+[2025-09-17 07:59:35 UTC] RESPONSE: POST /obrm/view_call_stack/working-test -> 200 OK
+[2025-09-17 08:00:37 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:13398)
+[2025-09-17 08:00:37 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 08:00:38 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:13398)
+[2025-09-17 08:00:38 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 08:00:39 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:13398)
+[2025-09-17 08:00:39 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 08:00:40 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:13398)
+[2025-09-17 08:00:40 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 08:00:43 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:13398)
+[2025-09-17 08:00:43 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 08:02:47 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:9468)
+[2025-09-17 08:02:47 UTC] RESPONSE: POST /register/ABC -> 200 OK
+[2025-09-17 08:02:47 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:9468)
+[2025-09-17 08:02:47 UTC] RESPONSE: POST /register/ABC -> 409 Conflict
+[2025-09-17 08:02:56 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:27820)
+[2025-09-17 08:02:56 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-17 08:02:59 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:27820)
+[2025-09-17 08:02:59 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 08:03:00 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:27820)
+[2025-09-17 08:03:00 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 08:03:03 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:27820)
+[2025-09-17 08:03:03 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 08:04:34 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:25534)
+[2025-09-17 08:04:34 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 08:11:16 UTC] REQUEST: POST /register/complete-final-test from Some(127.0.0.1:37758)
+[2025-09-17 08:11:16 UTC] RESPONSE: POST /register/complete-final-test -> 200 OK
+[2025-09-17 08:11:16 UTC] REQUEST: POST /obrm/load_obrm_fields/complete-final-test from Some(127.0.0.1:37772)
+[2025-09-17 08:11:16 UTC] RESPONSE: POST /obrm/load_obrm_fields/complete-final-test -> 200 OK
+[2025-09-17 08:11:17 UTC] REQUEST: POST /obrm/view_call_stack/complete-final-test from Some(127.0.0.1:37788)
+[2025-09-17 08:11:17 UTC] RESPONSE: POST /obrm/view_call_stack/complete-final-test -> 200 OK
+[2025-09-17 08:12:36 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:9036)
+[2025-09-17 08:12:36 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 400 Bad Request
+[2025-09-17 08:12:40 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:9036)
+[2025-09-17 08:12:40 UTC] RESPONSE: POST /register/ABC -> 200 OK
+[2025-09-17 08:12:44 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:9036)
+[2025-09-17 08:12:44 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-17 08:12:47 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:9036)
+[2025-09-17 08:12:47 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 200 OK
+[2025-09-17 11:29:45 UTC] REQUEST: POST /obrm/view_call_stack from Some(127.0.0.1:52990)
+[2025-09-17 11:29:45 UTC] RESPONSE: POST /obrm/view_call_stack -> 404 Not Found
+[2025-09-17 11:29:56 UTC] REQUEST: POST /obrm/view_call_stack from Some(127.0.0.1:56134)
+[2025-09-17 11:29:56 UTC] RESPONSE: POST /obrm/view_call_stack -> 404 Not Found
+[2025-09-17 11:32:09 UTC] REQUEST: GET /health from Some(223.185.133.138:27672)
+[2025-09-17 11:32:09 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 11:32:10 UTC] REQUEST: GET /health from Some(223.185.133.138:27672)
+[2025-09-17 11:32:10 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 11:32:10 UTC] REQUEST: GET /health from Some(223.185.133.138:27672)
+[2025-09-17 11:32:10 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 11:32:13 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:27672)
+[2025-09-17 11:32:13 UTC] RESPONSE: POST /register/ABC -> 409 Conflict
+[2025-09-17 11:32:16 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:27672)
+[2025-09-17 11:32:16 UTC] RESPONSE: POST /register/ABC -> 409 Conflict
+[2025-09-17 11:32:46 UTC] REQUEST: GET /health from Some(223.185.133.138:18547)
+[2025-09-17 11:32:46 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 11:32:47 UTC] REQUEST: GET /health from Some(223.185.133.138:18547)
+[2025-09-17 11:32:47 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 11:32:51 UTC] REQUEST: POST /register/ABC from Some(223.185.133.138:18547)
+[2025-09-17 11:32:51 UTC] RESPONSE: POST /register/ABC -> 200 OK
+[2025-09-17 11:32:54 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:18547)
+[2025-09-17 11:32:55 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-17 11:32:58 UTC] REQUEST: POST /obrm/view_call_stack/ABC from Some(223.185.133.138:18547)
+[2025-09-17 11:32:58 UTC] RESPONSE: POST /obrm/view_call_stack/ABC -> 404 Not Found
+[2025-09-17 11:33:31 UTC] REQUEST: POST /obrm/view_call_stack/ from Some(223.185.133.138:8483)
+[2025-09-17 11:33:31 UTC] RESPONSE: POST /obrm/view_call_stack/ -> 404 Not Found
+[2025-09-17 11:34:08 UTC] REQUEST: POST /obrm/view_call_stack from Some(223.185.133.138:5940)
+[2025-09-17 11:34:08 UTC] RESPONSE: POST /obrm/view_call_stack -> 400 Bad Request
+[2025-09-17 11:35:19 UTC] REQUEST: POST /obrm/view_call_stack from Some(223.185.133.138:19512)
+[2025-09-17 11:35:19 UTC] RESPONSE: POST /obrm/view_call_stack -> 400 Bad Request
+[2025-09-17 11:35:39 UTC] REQUEST: POST /obrm/view_call_stack from Some(223.185.133.138:18264)
+[2025-09-17 11:35:39 UTC] RESPONSE: POST /obrm/view_call_stack -> 200 OK
+[2025-09-17 11:41:53 UTC] REQUEST: GET /health from Some(223.185.133.138:25736)
+[2025-09-17 11:41:53 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 11:41:54 UTC] REQUEST: GET /health from Some(223.185.133.138:25736)
+[2025-09-17 11:41:54 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 11:41:54 UTC] REQUEST: GET /health from Some(223.185.133.138:25736)
+[2025-09-17 11:41:54 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 11:41:54 UTC] REQUEST: GET /health from Some(223.185.133.138:25736)
+[2025-09-17 11:41:54 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 11:41:55 UTC] REQUEST: GET /health from Some(223.185.133.138:25736)
+[2025-09-17 11:41:55 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 11:41:55 UTC] REQUEST: GET /health from Some(223.185.133.138:25736)
+[2025-09-17 11:41:55 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 11:41:59 UTC] REQUEST: POST /obrm/view_call_stack from Some(223.185.133.138:25736)
+[2025-09-17 11:41:59 UTC] RESPONSE: POST /obrm/view_call_stack -> 200 OK
+[2025-09-17 11:42:40 UTC] REQUEST: POST /obrm/view_call_stack from Some(223.185.133.138:2426)
+[2025-09-17 11:42:40 UTC] RESPONSE: POST /obrm/view_call_stack -> 200 OK
+[2025-09-17 15:51:13 UTC] REQUEST: GET /health from Some(127.0.0.1:44070)
+[2025-09-17 15:51:13 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 15:54:53 UTC] REQUEST: GET /health from Some(223.185.133.138:14680)
+[2025-09-17 15:54:53 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 15:54:54 UTC] REQUEST: GET /health from Some(223.185.133.138:14680)
+[2025-09-17 15:54:54 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:04:08 UTC] REQUEST: GET /health from Some(127.0.0.1:59394)
+[2025-09-17 16:04:08 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:11:12 UTC] REQUEST: GET /health from Some(127.0.0.1:44978)
+[2025-09-17 16:11:12 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:11:26 UTC] REQUEST: GET /health from Some(127.0.0.1:57024)
+[2025-09-17 16:11:26 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:11:27 UTC] REQUEST: GET /health from Some(127.0.0.1:57024)
+[2025-09-17 16:11:27 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:11:56 UTC] REQUEST: GET /health from Some(127.0.0.1:36444)
+[2025-09-17 16:11:56 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:12:26 UTC] REQUEST: GET /health from Some(127.0.0.1:47518)
+[2025-09-17 16:12:26 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:12:56 UTC] REQUEST: GET /health from Some(127.0.0.1:43412)
+[2025-09-17 16:12:56 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:12:57 UTC] REQUEST: GET /health from Some(127.0.0.1:43412)
+[2025-09-17 16:12:57 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:12:58 UTC] REQUEST: GET /health from Some(127.0.0.1:43412)
+[2025-09-17 16:12:58 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:13:22 UTC] REQUEST: POST /register/brm_suresh_mfo6l8nz from Some(127.0.0.1:50288)
+[2025-09-17 16:13:22 UTC] RESPONSE: POST /register/brm_suresh_mfo6l8nz -> 200 OK
+[2025-09-17 16:13:27 UTC] REQUEST: GET /health from Some(127.0.0.1:50300)
+[2025-09-17 16:13:27 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:13:57 UTC] REQUEST: GET /health from Some(127.0.0.1:52330)
+[2025-09-17 16:13:57 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:14:05 UTC] REQUEST: OPTIONS /status/brm_suresh_mfo6l8nz from Some(127.0.0.1:34852)
+[2025-09-17 16:14:05 UTC] RESPONSE: OPTIONS /status/brm_suresh_mfo6l8nz -> 404 Not Found
+[2025-09-17 16:14:26 UTC] REQUEST: POST /obrm/convert_flist2code/brm_suresh_mfo6l8nz from Some(223.185.133.138:9137)
+[2025-09-17 16:14:26 UTC] RESPONSE: POST /obrm/convert_flist2code/brm_suresh_mfo6l8nz -> 400 Bad Request
+[2025-09-17 16:14:27 UTC] REQUEST: GET /health from Some(127.0.0.1:45002)
+[2025-09-17 16:14:27 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:14:32 UTC] REQUEST: POST /obrm/load_obrm_fields/brm_suresh_mfo6l8nz from Some(223.185.133.138:24214)
+[2025-09-17 16:14:32 UTC] RESPONSE: POST /obrm/load_obrm_fields/brm_suresh_mfo6l8nz -> 200 OK
+[2025-09-17 16:14:39 UTC] REQUEST: POST /obrm/load_obrm_fields/ABC from Some(223.185.133.138:17081)
+[2025-09-17 16:14:39 UTC] RESPONSE: POST /obrm/load_obrm_fields/ABC -> 200 OK
+[2025-09-17 16:14:57 UTC] REQUEST: GET /health from Some(127.0.0.1:39272)
+[2025-09-17 16:14:57 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:14:59 UTC] REQUEST: POST /obrm/load_obrm_fields/brm_suresh_mfo6l8nz from Some(127.0.0.1:39272)
+[2025-09-17 16:14:59 UTC] RESPONSE: POST /obrm/load_obrm_fields/brm_suresh_mfo6l8nz -> 200 OK
+[2025-09-17 16:15:23 UTC] REQUEST: POST /obrm/view_call_stack from Some(127.0.0.1:37406)
+[2025-09-17 16:15:24 UTC] RESPONSE: POST /obrm/view_call_stack -> 200 OK
+[2025-09-17 16:15:27 UTC] REQUEST: GET /health from Some(127.0.0.1:37412)
+[2025-09-17 16:15:27 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:15:57 UTC] REQUEST: GET /health from Some(127.0.0.1:40088)
+[2025-09-17 16:15:57 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:16:06 UTC] REQUEST: GET /health from Some(127.0.0.1:49780)
+[2025-09-17 16:16:06 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:16:27 UTC] REQUEST: GET /health from Some(127.0.0.1:56958)
+[2025-09-17 16:16:27 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:16:57 UTC] REQUEST: GET /health from Some(127.0.0.1:45258)
+[2025-09-17 16:16:57 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:17:44 UTC] REQUEST: GET /health from Some(127.0.0.1:50568)
+[2025-09-17 16:17:44 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:17:49 UTC] REQUEST: OPTIONS /health from Some(127.0.0.1:50580)
+[2025-09-17 16:17:49 UTC] RESPONSE: OPTIONS /health -> 200 OK
+[2025-09-17 16:17:57 UTC] REQUEST: GET /health from Some(127.0.0.1:35402)
+[2025-09-17 16:17:57 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:19:22 UTC] REQUEST: GET /health from Some(127.0.0.1:47546)
+[2025-09-17 16:19:22 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:19:23 UTC] REQUEST: GET /health from Some(127.0.0.1:47546)
+[2025-09-17 16:19:23 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:19:26 UTC] REQUEST: GET /health from Some(127.0.0.1:47546)
+[2025-09-17 16:19:26 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:19:53 UTC] REQUEST: GET /health from Some(127.0.0.1:40780)
+[2025-09-17 16:19:53 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:20:23 UTC] REQUEST: GET /health from Some(127.0.0.1:56770)
+[2025-09-17 16:20:23 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:20:26 UTC] REQUEST: GET /health from Some(127.0.0.1:56770)
+[2025-09-17 16:20:26 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:20:53 UTC] REQUEST: GET /health from Some(127.0.0.1:45438)
+[2025-09-17 16:20:53 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:21:23 UTC] REQUEST: GET /health from Some(127.0.0.1:37680)
+[2025-09-17 16:21:23 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:21:26 UTC] REQUEST: GET /health from Some(127.0.0.1:37680)
+[2025-09-17 16:21:26 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:21:53 UTC] REQUEST: GET /health from Some(127.0.0.1:57728)
+[2025-09-17 16:21:53 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:22:26 UTC] REQUEST: GET /health from Some(127.0.0.1:34118)
+[2025-09-17 16:22:26 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:22:26 UTC] REQUEST: GET /health from Some(127.0.0.1:34118)
+[2025-09-17 16:22:26 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:22:26 UTC] REQUEST: GET /health from Some(127.0.0.1:34118)
+[2025-09-17 16:22:26 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:23:26 UTC] REQUEST: GET /health from Some(127.0.0.1:58644)
+[2025-09-17 16:23:26 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:23:26 UTC] REQUEST: GET /health from Some(127.0.0.1:58644)
+[2025-09-17 16:23:26 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:23:26 UTC] REQUEST: GET /health from Some(127.0.0.1:58644)
+[2025-09-17 16:23:26 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:24:26 UTC] REQUEST: GET /health from Some(127.0.0.1:54602)
+[2025-09-17 16:24:26 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:24:26 UTC] REQUEST: GET /health from Some(127.0.0.1:54602)
+[2025-09-17 16:24:26 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:24:26 UTC] REQUEST: GET /health from Some(127.0.0.1:54602)
+[2025-09-17 16:24:26 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:24:59 UTC] REQUEST: GET /health from Some(127.0.0.1:33688)
+[2025-09-17 16:24:59 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:25:11 UTC] REQUEST: GET /health from Some(127.0.0.1:44360)
+[2025-09-17 16:25:11 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-17 16:25:12 UTC] REQUEST: GET /health from Some(127.0.0.1:44372)
+[2025-09-17 16:25:12 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:25:13 UTC] REQUEST: GET /health from Some(127.0.0.1:44372)
+[2025-09-17 16:25:13 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:25:26 UTC] REQUEST: GET /health from Some(127.0.0.1:49758)
+[2025-09-17 16:25:26 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:25:32 UTC] REQUEST: POST /register/brm_suresh_mfo70w0w from Some(127.0.0.1:43888)
+[2025-09-17 16:25:32 UTC] RESPONSE: POST /register/brm_suresh_mfo70w0w -> 400 Bad Request
+[2025-09-17 16:25:42 UTC] REQUEST: GET /health from Some(127.0.0.1:53928)
+[2025-09-17 16:25:42 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:25:51 UTC] REQUEST: GET /health from Some(127.0.0.1:45502)
+[2025-09-17 16:25:51 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:25:52 UTC] REQUEST: GET /health from Some(127.0.0.1:45502)
+[2025-09-17 16:25:52 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:26:01 UTC] REQUEST: OPTIONS /health from Some(127.0.0.1:40438)
+[2025-09-17 16:26:01 UTC] RESPONSE: OPTIONS /health -> 400 Bad Request
+[2025-09-17 16:26:21 UTC] REQUEST: GET /health from Some(127.0.0.1:36468)
+[2025-09-17 16:26:21 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:26:26 UTC] REQUEST: GET /health from Some(127.0.0.1:36472)
+[2025-09-17 16:26:26 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:26:51 UTC] REQUEST: GET /health from Some(127.0.0.1:50088)
+[2025-09-17 16:26:51 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:27:21 UTC] REQUEST: GET /health from Some(127.0.0.1:42730)
+[2025-09-17 16:27:21 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:27:26 UTC] REQUEST: GET /health from Some(127.0.0.1:42730)
+[2025-09-17 16:27:26 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:27:51 UTC] REQUEST: GET /health from Some(127.0.0.1:58880)
+[2025-09-17 16:27:51 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:28:21 UTC] REQUEST: GET /health from Some(127.0.0.1:47748)
+[2025-09-17 16:28:21 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:28:27 UTC] REQUEST: GET /health from Some(127.0.0.1:47752)
+[2025-09-17 16:28:27 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:28:51 UTC] REQUEST: GET /health from Some(127.0.0.1:43728)
+[2025-09-17 16:28:51 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:29:21 UTC] REQUEST: GET /health from Some(127.0.0.1:33306)
+[2025-09-17 16:29:21 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 16:29:26 UTC] REQUEST: GET /health from Some(127.0.0.1:33306)
+[2025-09-17 16:29:26 UTC] RESPONSE: GET /health -> 400 Bad Request
+[2025-09-17 19:23:22 UTC] REQUEST: GET / from Some(167.94.138.167:58134)
+[2025-09-17 19:23:22 UTC] RESPONSE: GET / -> 404 Not Found
+[2025-09-17 19:23:38 UTC] REQUEST: GET /security.txt from Some(167.94.138.167:58614)
+[2025-09-17 19:23:38 UTC] RESPONSE: GET /security.txt -> 404 Not Found
+[2025-09-18 02:36:38 UTC] REQUEST: GET /health from Some(127.0.0.1:60396)
+[2025-09-18 02:36:38 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-18 02:39:53 UTC] REQUEST: GET /health from Some(127.0.0.1:43970)
+[2025-09-18 02:39:53 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-18 02:40:29 UTC] REQUEST: POST /register/brm_suresh_1758163229 from Some(127.0.0.1:47008)
+[2025-09-18 02:40:29 UTC] RESPONSE: POST /register/brm_suresh_1758163229 -> 200 OK
+[2025-09-18 02:45:19 UTC] REQUEST: GET /health from Some(127.0.0.1:53658)
+[2025-09-18 02:45:19 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-18 02:45:33 UTC] REQUEST: POST /register/brm_suresh_1758163533 from Some(127.0.0.1:35738)
+[2025-09-18 02:45:33 UTC] RESPONSE: POST /register/brm_suresh_1758163533 -> 200 OK
+[2025-09-18 02:45:39 UTC] REQUEST: GET /health from Some(127.0.0.1:35754)
+[2025-09-18 02:45:39 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-18 02:45:54 UTC] REQUEST: POST /obrm/load_obrm_fields/brm_suresh_1758163533 from Some(127.0.0.1:59232)
+[2025-09-18 02:45:54 UTC] RESPONSE: POST /obrm/load_obrm_fields/brm_suresh_1758163533 -> 200 OK
+[2025-09-18 02:46:12 UTC] REQUEST: POST /obrm/view_call_stack from Some(127.0.0.1:56510)
+[2025-09-18 02:46:12 UTC] RESPONSE: POST /obrm/view_call_stack -> 200 OK
+[2025-09-18 02:55:35 UTC] REQUEST: GET /health from Some(127.0.0.1:42382)
+[2025-09-18 02:55:35 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-18 02:55:55 UTC] REQUEST: POST /register/brm_suresh_1758164155 from Some(127.0.0.1:58438)
+[2025-09-18 02:55:55 UTC] RESPONSE: POST /register/brm_suresh_1758164155 -> 200 OK
+[2025-09-18 02:56:08 UTC] REQUEST: POST /obrm/view_call_stack from Some(127.0.0.1:52842)
+[2025-09-18 02:56:08 UTC] RESPONSE: POST /obrm/view_call_stack -> 400 Bad Request
+[2025-09-18 02:56:22 UTC] REQUEST: POST /obrm/load_obrm_fields/brm_suresh_1758164155 from Some(127.0.0.1:46518)
+[2025-09-18 02:56:22 UTC] RESPONSE: POST /obrm/load_obrm_fields/brm_suresh_1758164155 -> 200 OK
+[2025-09-18 02:56:31 UTC] REQUEST: POST /obrm/view_call_stack from Some(127.0.0.1:56336)
+[2025-09-18 02:56:31 UTC] RESPONSE: POST /obrm/view_call_stack -> 200 OK
+[2025-09-18 02:57:14 UTC] REQUEST: POST /obrm/view_call_stack from Some(127.0.0.1:37620)
+[2025-09-18 02:57:14 UTC] RESPONSE: POST /obrm/view_call_stack -> 400 Bad Request
+[2025-09-18 02:57:29 UTC] REQUEST: POST /obrm/view_call_stack from Some(127.0.0.1:52730)
+[2025-09-18 02:57:29 UTC] RESPONSE: POST /obrm/view_call_stack -> 200 OK
+[2025-09-18 02:58:13 UTC] REQUEST: POST /obrm/view_call_stack from Some(127.0.0.1:50436)
+[2025-09-18 02:58:13 UTC] RESPONSE: POST /obrm/view_call_stack -> 200 OK
+[2025-09-18 03:01:55 UTC] REQUEST: POST /register/brm_suresh_1758164515 from Some(127.0.0.1:39652)
+[2025-09-18 03:01:55 UTC] RESPONSE: POST /register/brm_suresh_1758164515 -> 200 OK
+[2025-09-18 03:01:58 UTC] REQUEST: GET /health from Some(127.0.0.1:39666)
+[2025-09-18 03:01:58 UTC] RESPONSE: GET /health -> 200 OK
+[2025-09-18 03:02:03 UTC] REQUEST: GET /obrm/get_session_fields/brm_suresh_1758164515 from Some(127.0.0.1:40456)
+[2025-09-18 03:02:03 UTC] RESPONSE: GET /obrm/get_session_fields/brm_suresh_1758164515 -> 404 Not Found
+[2025-09-18 03:04:15 UTC] REQUEST: POST /obrm/view_call_stack from Some(127.0.0.1:51862)
+[2025-09-18 03:04:15 UTC] RESPONSE: POST /obrm/view_call_stack -> 200 OK
+[2025-09-18 03:04:28 UTC] REQUEST: POST /obrm/view_call_stack from Some(127.0.0.1:58188)
+[2025-09-18 03:04:28 UTC] RESPONSE: POST /obrm/view_call_stack -> 200 OK
+[2025-09-18 03:08:08 UTC] REQUEST: POST /obrm/view_call_stack from Some(127.0.0.1:47258)
+[2025-09-18 03:08:08 UTC] RESPONSE: POST /obrm/view_call_stack -> 200 OK
+[2025-09-18 03:12:20 UTC] REQUEST: POST /obrm/view_call_stack from Some(127.0.0.1:44134)
+[2025-09-18 03:12:20 UTC] RESPONSE: POST /obrm/view_call_stack -> 200 OK
+[2025-09-18 03:12:33 UTC] REQUEST: POST /obrm/view_call_stack from Some(127.0.0.1:38036)
+[2025-09-18 03:12:33 UTC] RESPONSE: POST /obrm/view_call_stack -> 200 OK

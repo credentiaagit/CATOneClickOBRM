@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}View Session Fields - Oracle BRM Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    {% include 'dashboard_header.html' %}
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h2><i class="fas fa-list"></i> View Session Fields</h2>
+            <p>View all loaded BRM fields for your current session</p>
+        </div>
+        
+        <div class="section">
+            <div class="session-info-bar">
+                <i class="fas fa-info-circle"></i>
+                <span>Using Session: <strong>{{ session.get('brm_session_id', 'No active session') }}</strong></span>
+            </div>
+            
+            <div class="form-actions">
+                <a href="{{ url_for('view_fields') }}" class="btn btn-primary">
+                    <i class="fas fa-search"></i> View Fields
+                </a>
+                <a href="{{ url_for('view_fields') }}" class="btn btn-secondary">
+                    <i class="fas fa-sync"></i> Refresh
+                </a>
+            </div>
+            
+            {% if result %}
+            <div class="output-container">
+                <h3>Session Fields</h3>
+                <div class="output-content">
+                    {% if result.error %}
+                        <div class="error-message">{{ result.error }}</div>
+                    {% else %}
+                        <pre>{{ result | tojson(indent=2) }}</pre>
+                    {% endif %}
+                </div>
+                <div class="output-actions">
+                    <button class="btn btn-secondary" onclick="copyToClipboard('output-content')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                    <button class="btn btn-accent" onclick="downloadContent('output-content', 'session-fields.json')">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function copyToClipboard(elementId) {
+    const element = document.getElementById(elementId);
+    const text = element.textContent;
+    
+    navigator.clipboard.writeText(text).then(() => {
+        showNotification('Content copied to clipboard', 'success');
+    }).catch(() => {
+        showNotification('Failed to copy content', 'error');
+    });
+}
+
+function downloadContent(elementId, filename) {
+    const element = document.getElementById(elementId);
+    const content = element.textContent;
+    
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
+    window.URL.revokeObjectURL(url);
+    showNotification(`Downloaded ${filename}`, 'success');
+}
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `flash-message ${type}`;
+    notification.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+        <span>${message}</span>
+        <button class="flash-close" onclick="this.parentElement.remove()">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    let container = document.getElementById('flash-messages');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'flash-messages';
+        document.body.insertBefore(container, document.body.firstChild);
+    }
+    container.appendChild(notification);
+    
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 5000);
+}
+</script>
+{% endblock %}
+

@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}FLIST to XML - Oracle BRM Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    {% include 'dashboard_header.html' %}
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h2><i class="fas fa-file-code"></i> FLIST to XML</h2>
+            <p>Convert FLIST format to XML structure using your current session</p>
+        </div>
+        
+        <div class="section">
+            <div class="session-info-bar">
+                <i class="fas fa-info-circle"></i>
+                <span>Using Session: <strong>{{ session.get('brm_session_id', 'No active session') }}</strong></span>
+            </div>
+            
+            <form method="POST">
+                <div class="form-group">
+                    <label for="flist_data">FLIST Data</label>
+                    <textarea id="flist_data" name="flist_data" required 
+                              placeholder="Enter FLIST format data"></textarea>
+                    <small>Enter FLIST in Oracle BRM standard format</small>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-file-code"></i> Convert to XML
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="loadSampleFlist()">
+                        <i class="fas fa-file-alt"></i> Load Sample
+                    </button>
+                </div>
+            </form>
+            
+            {% if result %}
+            <div class="output-container">
+                <h3>Generated XML</h3>
+                <div class="output-content">
+                    {% if result.error %}
+                        <div class="error-message">{{ result.error }}</div>
+                    {% else %}
+                        <pre>{{ result.podl_content or result }}</pre>
+                    {% endif %}
+                </div>
+                <div class="output-actions">
+                    <button class="btn btn-secondary" onclick="copyToClipboard('output-content')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                    <button class="btn btn-accent" onclick="downloadContent('output-content', 'flist-data.xml')">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function loadSampleFlist() {
+    const sampleData = `0 PIN_FLD_POID POID [0] 0.0.0.1 /account/customer 1
+0 PIN_FLD_ACCOUNT_NO STR [0] "123456789"
+0 PIN_FLD_ACCOUNT_TYPE ENUM [0] 1
+0 PIN_FLD_CREATED_T TSTAMP [0] (1234567890)`;
+    document.getElementById('flist_data').value = sampleData;
+}
+
+function copyToClipboard(elementId) {
+    const element = document.getElementById(elementId);
+    const text = element.textContent;
+    
+    navigator.clipboard.writeText(text).then(() => {
+        showNotification('Content copied to clipboard', 'success');
+    }).catch(() => {
+        showNotification('Failed to copy content', 'error');
+    });
+}
+
+function downloadContent(elementId, filename) {
+    const element = document.getElementById(elementId);
+    const content = element.textContent;
+    
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
+    window.URL.revokeObjectURL(url);
+    showNotification(`Downloaded ${filename}`, 'success');
+}
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `flash-message ${type}`;
+    notification.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+        <span>${message}</span>
+        <button class="flash-close" onclick="this.parentElement.remove()">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    let container = document.getElementById('flash-messages');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'flash-messages';
+        document.body.insertBefore(container, document.body.firstChild);
+    }
+    container.appendChild(notification);
+    
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 5000);
+}
+</script>
+{% endblock %}
+
