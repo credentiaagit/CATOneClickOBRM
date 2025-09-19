@@ -7,19 +7,5 @@ WARNING: This is a development server. Do not use it in a production deployment.
 Press CTRL+C to quit
  * Restarting with stat
  * Debugger is active!
- * Debugger PIN: 999-270-636
-127.0.0.1 - - [18/Sep/2025 06:55:15] "GET / HTTP/1.1" 302 -
-223.185.133.138 - - [18/Sep/2025 06:55:27] "GET / HTTP/1.1" 302 -
-223.185.133.138 - - [18/Sep/2025 06:55:27] "GET /login HTTP/1.1" 200 -
-223.185.133.138 - - [18/Sep/2025 06:55:28] "GET / HTTP/1.1" 302 -
-223.185.133.138 - - [18/Sep/2025 06:55:28] "GET /login HTTP/1.1" 200 -
-223.185.133.138 - - [18/Sep/2025 06:55:28] "GET /static/css/styles.css HTTP/1.1" 200 -
-223.185.133.138 - - [18/Sep/2025 06:55:29] "GET /static/js/dashboard.js HTTP/1.1" 200 -
-223.185.133.138 - - [18/Sep/2025 06:55:47] "POST /login HTTP/1.1" 302 -
-223.185.133.138 - - [18/Sep/2025 06:55:47] "GET /dashboard HTTP/1.1" 200 -
-223.185.133.138 - - [18/Sep/2025 06:55:47] "GET /static/css/styles.css HTTP/1.1" 304 -
-223.185.133.138 - - [18/Sep/2025 06:55:47] "GET /static/js/dashboard.js HTTP/1.1" 304 -
-223.185.133.138 - - [18/Sep/2025 06:56:09] "GET /logout HTTP/1.1" 302 -
-223.185.133.138 - - [18/Sep/2025 06:56:09] "GET /login HTTP/1.1" 200 -
-223.185.133.138 - - [18/Sep/2025 06:56:09] "GET /static/css/styles.css HTTP/1.1" 304 -
-223.185.133.138 - - [18/Sep/2025 06:56:09] "GET /static/js/dashboard.js HTTP/1.1" 304 -
+ * Debugger PIN: 654-512-704
+127.0.0.1 - - [19/Sep/2025 02:36:02] "GET / HTTP/1.1" 302 -

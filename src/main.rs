@@ -1340,6 +1340,34 @@ fn log_to_file(log_file: &str, message: &str) {
     }
 }
 
+// === SESSION VALIDATION HELPERS ===
+
+/// Validates if a session exists and is active
+/// 
+/// **Rust Concepts Demonstrated:**
+/// - **Shared State Access** - Reading from Arc<Mutex<HashMap>>
+/// - **Option Handling** - Checking if session exists
+/// - **Boolean Logic** - Validating both existence and active status
+fn is_session_valid(sessions: &web::Data<SessionStore>, session_id: &str) -> bool {
+    let sessions_map = sessions.lock().unwrap();
+    sessions_map
+        .get(session_id)
+        .map(|session| session.is_active)
+        .unwrap_or(false)
+}
+
+/// Creates a standardized invalid session response
+/// 
+/// **Rust Concepts Demonstrated:**
+/// - **Generic Type Usage** - ApiResponse<T> for consistent error format
+/// - **HTTP Status Codes** - 401 Unauthorized for invalid sessions
+/// - **Error Response Pattern** - Consistent error structure
+/// - **Trait Bounds** - T must implement Serialize for JSON serialization
+fn invalid_session_response<T: Serialize>() -> Result<HttpResponse> {
+    let response = ApiResponse::<T>::error("Invalid or unregistered session ID");
+    Ok(HttpResponse::Unauthorized().json(response))
+}
+
 // === IMPLEMENTATION BLOCKS FOR HELPER METHODS ===
 
 /// Implementation of helper methods for ApiResponse
@@ -1395,9 +1423,11 @@ impl<T> ApiResponse<T> {
 /// - **Path Parameters** - Session ID extraction from URL
 /// - **Module Function Calls** - Calling BRM module functions
 /// - **JSON Response** - Structured API response
+/// - **Session Validation** - Ensures session is registered before operations
 async fn load_obrm_fields_handler(
     path: web::Path<String>,
     body: String,
+    sessions: web::Data<SessionStore>,
 ) -> Result<HttpResponse> {
     let session_id = path.into_inner();
     
@@ -1424,6 +1454,12 @@ async fn load_obrm_fields_handler(
         return Ok(HttpResponse::BadRequest().json(response));
     }
     
+    // Validate session exists and is active
+    if !is_session_valid(&sessions, &session_id) {
+        info!("Session validation failed for session: {}", session_id);
+        return invalid_session_response::<brm::LoadFieldsResponse>();
+    }
+    
     // Load fields using BRM module
     let result = brm::load_obrm_fields(&session_id, body);
     let fields = brm::get_session_fields(&session_id);
@@ -1446,12 +1482,20 @@ async fn load_obrm_fields_handler(
 /// - **Read-only Operations** - Retrieving stored data
 /// - **Vec Serialization** - Converting Vec to JSON
 /// - **Option Handling** - Dealing with potentially empty data
+/// - **Session Validation** - Ensures session is registered before operations
 async fn get_session_fields_handler(
     path: web::Path<String>,
+    sessions: web::Data<SessionStore>,
 ) -> Result<HttpResponse> {
     let session_id = path.into_inner();
     
     info!("Getting BRM fields for session: {}", session_id);
+    
+    // Validate session exists and is active
+    if !is_session_valid(&sessions, &session_id) {
+        info!("Session validation failed for session: {}", session_id);
+        return invalid_session_response::<Vec<brm::Field>>();
+    }
     
     let fields = brm::get_session_fields(&session_id);
     
@@ -1478,6 +1522,7 @@ async fn get_session_fields_handler(
 async fn convert_fld_spec_to_podl_handler(
     path: web::Path<String>,
     body: String,
+    sessions: web::Data<SessionStore>,
 ) -> Result<HttpResponse> {
     let session_id = path.into_inner();
     
@@ -1500,6 +1545,12 @@ async fn convert_fld_spec_to_podl_handler(
             podl_content: String::new(),
         };
         return Ok(HttpResponse::BadRequest().json(response));
+    }
+    
+    // Validate session exists and is active
+    if !is_session_valid(&sessions, &session_id) {
+        info!("Session validation failed for session: {}", session_id);
+        return invalid_session_response::<brm::PodlConversionResponse>();
     }
     
     // Check if fields are loaded for this session
@@ -1570,6 +1621,7 @@ async fn convert_fld_spec_to_podl_handler(
 async fn convert_class_spec_to_podl_handler(
     path: web::Path<String>,
     body: String,
+    sessions: web::Data<SessionStore>,
 ) -> Result<HttpResponse> {
     let session_id = path.into_inner();
     
@@ -1592,6 +1644,12 @@ async fn convert_class_spec_to_podl_handler(
             podl_content: String::new(),
         };
         return Ok(HttpResponse::BadRequest().json(response));
+    }
+    
+    // Validate session exists and is active
+    if !is_session_valid(&sessions, &session_id) {
+        info!("Session validation failed for session: {}", session_id);
+        return invalid_session_response::<brm::PodlConversionResponse>();
     }
     
     // Check if fields are loaded for this session
@@ -1640,6 +1698,7 @@ async fn convert_class_spec_to_podl_handler(
 async fn convert_flist2code_handler(
     path: web::Path<String>,
     body: String,
+    sessions: web::Data<SessionStore>,
 ) -> Result<HttpResponse> {
     let session_id = path.into_inner();
     
@@ -1662,6 +1721,12 @@ async fn convert_flist2code_handler(
             podl_content: String::new(),
         };
         return Ok(HttpResponse::BadRequest().json(response));
+    }
+    
+    // Validate session exists and is active
+    if !is_session_valid(&sessions, &session_id) {
+        info!("Session validation failed for session: {}", session_id);
+        return invalid_session_response::<brm::PodlConversionResponse>();
     }
     
     // Check if fields are loaded for this session
@@ -1701,6 +1766,7 @@ async fn convert_flist2code_handler(
 async fn convert_flist2xml_handler(
     path: web::Path<String>,
     body: String,
+    sessions: web::Data<SessionStore>,
 ) -> Result<HttpResponse> {
     let session_id = path.into_inner();
     
@@ -1723,6 +1789,12 @@ async fn convert_flist2xml_handler(
             podl_content: String::new(),
         };
         return Ok(HttpResponse::BadRequest().json(response));
+    }
+    
+    // Validate session exists and is active
+    if !is_session_valid(&sessions, &session_id) {
+        info!("Session validation failed for session: {}", session_id);
+        return invalid_session_response::<brm::PodlConversionResponse>();
     }
     
     // Check if fields are loaded for this session
@@ -1762,6 +1834,7 @@ async fn convert_flist2xml_handler(
 async fn convert_flist2json_handler(
     path: web::Path<String>,
     body: String,
+    sessions: web::Data<SessionStore>,
 ) -> Result<HttpResponse> {
     let session_id = path.into_inner();
     
@@ -1784,6 +1857,12 @@ async fn convert_flist2json_handler(
             podl_content: String::new(),
         };
         return Ok(HttpResponse::BadRequest().json(response));
+    }
+    
+    // Validate session exists and is active
+    if !is_session_valid(&sessions, &session_id) {
+        info!("Session validation failed for session: {}", session_id);
+        return invalid_session_response::<brm::PodlConversionResponse>();
     }
     
     // Check if fields are loaded for this session
@@ -2059,15 +2138,9 @@ async fn get_session_status(
         }
         // **None Pattern** - HashMap::get() returns None when key not found
         None => {
-            let status = SessionStatus {
-                session_id: session_id.clone(),
-                is_valid: false,
-                created_at: None,
-            };
-            let response = ApiResponse::success("Session not found", Some(status));
-            info!("Session {} not found. Response: {:?}", session_id, response);
-            // **HTTP 404** - Resource not found
-            Ok(HttpResponse::NotFound().json(response))
+            info!("Session {} not found. Returning invalid session response", session_id);
+            // **HTTP 401** - Invalid session ID
+            invalid_session_response::<SessionStatus>()
         }
     } // **Match Exhaustiveness** - Rust ensures all possible values are handled
 }
@@ -2100,10 +2173,9 @@ async fn unregister_session(
         }
         // **Not Found Case** - Session didn't exist
         None => {
-            // **Unit Type in Generics** - ApiResponse::<()> when no data
-            let response = ApiResponse::<()>::error("Session not found");
-            info!("Failed to unregister session {} - not found. Response: {:?}", session_id, response);
-            Ok(HttpResponse::NotFound().json(response))
+            info!("Failed to unregister session {} - not found. Returning invalid session response", session_id);
+            // **HTTP 401** - Invalid session ID
+            invalid_session_response::<()>()
         }
     }
 }
