@@ -6,8 +6,11 @@
 <div class="auth-container">
     <div class="auth-modal">
         <div class="auth-header">
-            <h1><i class="fas fa-database"></i> Oracle BRM Dashboard</h1>
-            <p>Sign in to access your BRM management tools</p>
+            <div class="brand-logo">
+                <i class="fas fa-database"></i>
+            </div>
+            <h1>Oracle BRM Dashboard</h1>
+            <p>Enterprise-grade BRM management and monitoring platform</p>
         </div>
         
         <div class="auth-tabs">
@@ -36,17 +39,58 @@
                        placeholder="Enter your password" autocomplete="current-password">
             </div>
             
-            <button type="submit" class="btn btn-primary btn-full">
+            <div class="form-options">
+                <label class="checkbox-container">
+                    <input type="checkbox" name="remember">
+                    <span class="checkmark"></span>
+                    Remember me
+                </label>
+                <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-full btn-signin">
                 <i class="fas fa-sign-in-alt"></i> Sign In
             </button>
         </form>
         
         <div class="auth-footer">
-            <p>Default credentials:</p>
-            <p><strong>Admin:</strong> admin / admin123</p>
-            <p><strong>User:</strong> suresh / suresh123</p>
+            <div class="demo-booking">
+                <h4><i class="fas fa-calendar-alt"></i> Need a Demo?</h4>
+                <button class="btn btn-demo" onclick="bookDemo()">
+                    <i class="fas fa-video"></i> Get Demo credentials
+                </button>
+            </div>
+            <div class="security-notice">
+                <i class="fas fa-shield-alt"></i>
+                <span>Secure enterprise authentication</span>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+function bookDemo() {
+    // You can customize this to open a demo booking modal, redirect to a booking page, or show contact information
+    const demoOptions = [
+        'Schedule a live demo with our team',
+        'Contact us at demo@oraclebrm.com',
+        'Call us at +1 (555) 123-4567',
+        'Visit our website for more information'
+    ];
+    
+    const selectedOption = demoOptions[Math.floor(Math.random() * demoOptions.length)];
+    
+    // For now, we'll show an alert. In a real application, you might:
+    // - Open a modal with booking form
+    // - Redirect to a booking page
+    // - Show contact information
+    // - Integrate with a calendar booking system
+    
+    alert(`Demo Booking Information:\n\n${selectedOption}\n\nThank you for your interest in Oracle BRM Dashboard!`);
+    
+    // Alternative: You could redirect to a booking page
+    // window.open('https://calendly.com/your-demo-booking', '_blank');
+}
+</script>
 {% endblock %}
 

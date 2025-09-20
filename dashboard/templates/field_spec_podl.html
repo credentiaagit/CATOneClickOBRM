@@ -7,17 +7,23 @@
     {% include 'dashboard_header.html' %}
     
     <main class="main-content">
+        <!-- Breadcrumb Navigation -->
+        <div class="page-breadcrumb">
+            <a href="/dashboard" class="breadcrumb-item">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-item active">
+                <i class="fas fa-file-code"></i> Field Spec to PODL
+            </span>
+        </div>
+        
         <div class="page-header">
             <h2><i class="fas fa-file-code"></i> Field Spec to PODL</h2>
-            <p>Convert field specifications to PODL format using your current session</p>
+            <p>Convert field specifications to PODL format</p>
         </div>
         
         <div class="section">
-            <div class="session-info-bar">
-                <i class="fas fa-info-circle"></i>
-                <span>Using Session: <strong>{{ session.get('brm_session_id', 'No active session') }}</strong></span>
-            </div>
-            
             <form method="POST">
                 <div class="form-group">
                     <label for="field_spec_data">Field Specification</label>
@@ -37,22 +43,24 @@
             </form>
             
             {% if result %}
-            <div class="output-container">
-                <h3>PODL Output</h3>
-                <div class="output-content">
+            <div id="result-section" class="output-container">
+                <div class="output-header">
+                    <h3><i class="fas fa-check-circle"></i> PODL Output</h3>
+                    <div class="output-actions">
+                        <button class="btn btn-secondary btn-sm" onclick="copyToClipboard('output-content', this)">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button class="btn btn-accent btn-sm" onclick="downloadContent('output-content', 'field-spec.podl')">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+                <div id="output-content" class="output-content">
                     {% if result.error %}
                         <div class="error-message">{{ result.error }}</div>
                     {% else %}
-                        <pre>{{ result.podl_content or result | tojson(indent=2) }}</pre>
+                        <pre><code>{{ result.podl_content or result | tojson(indent=2) }}</code></pre>
                     {% endif %}
-                </div>
-                <div class="output-actions">
-                    <button class="btn btn-secondary" onclick="copyToClipboard('output-content')">
-                        <i class="fas fa-copy"></i> Copy
-                    </button>
-                    <button class="btn btn-accent" onclick="downloadContent('output-content', 'field-spec.podl')">
-                        <i class="fas fa-download"></i> Download
-                    </button>
                 </div>
             </div>
             {% endif %}
@@ -70,20 +78,144 @@ PIN_FLD_ACCOUNT_TYPE|Account Type|PIN_FLDT_ENUM|3`;
     document.getElementById('field_spec_data').value = sampleData;
 }
 
-function copyToClipboard(elementId) {
-    const element = document.getElementById(elementId);
-    const text = element.textContent;
+function copyToClipboard(elementId, buttonElement) {
+    console.log('Copy function called with elementId:', elementId);
     
-    navigator.clipboard.writeText(text).then(() => {
-        showNotification('Content copied to clipboard', 'success');
-    }).catch(() => {
-        showNotification('Failed to copy content', 'error');
-    });
+    const element = document.getElementById(elementId);
+    if (!element) {
+        console.error('Element not found:', elementId);
+        showNotification('Content not found', 'error');
+        return;
+    }
+    
+    console.log('Element found:', element);
+    
+    // Enhanced content extraction - check multiple possible structures
+    let text = '';
+    
+    // Try to get content from code tag inside pre tag first
+    const codeElement = element.querySelector('pre code');
+    if (codeElement) {
+        text = codeElement.textContent || codeElement.innerText;
+        console.log('Found content in pre > code:', text.substring(0, 100) + '...');
+    } else {
+        // Try to get content from pre tag
+        const preElement = element.querySelector('pre');
+        if (preElement) {
+            text = preElement.textContent || preElement.innerText;
+            console.log('Found content in pre:', text.substring(0, 100) + '...');
+        } else {
+            // Fallback to element's direct content
+            text = element.textContent || element.innerText;
+            console.log('Found content in element:', text.substring(0, 100) + '...');
+        }
+    }
+    
+    if (!text || text.trim() === '') {
+        console.error('No content found to copy');
+        showNotification('No content to copy', 'error');
+        return;
+    }
+    
+    console.log('Text to copy length:', text.length);
+    
+    // Visual feedback - change button color
+    const originalButton = buttonElement || event.target;
+    const originalBg = originalButton.style.background;
+    const originalColor = originalButton.style.color;
+    const originalTransform = originalButton.style.transform;
+    
+    // Add success class and change color
+    originalButton.classList.add('btn-copy-success');
+    originalButton.style.background = '#10b981';
+    originalButton.style.color = 'white';
+    originalButton.style.transform = 'scale(0.95)';
+    
+    // Copy to clipboard
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+            console.log('Copy successful via Clipboard API');
+            showNotification('Content copied to clipboard', 'success');
+            
+            // Reset button after 1.5 seconds
+            setTimeout(() => {
+                originalButton.classList.remove('btn-copy-success');
+                originalButton.style.background = originalBg;
+                originalButton.style.color = originalColor;
+                originalButton.style.transform = originalTransform || 'scale(1)';
+            }, 1500);
+            
+        }).catch((err) => {
+            console.error('Clipboard API failed:', err);
+            fallbackCopy(text, originalButton, originalBg, originalColor, originalTransform);
+        });
+    } else {
+        console.log('Clipboard API not available, using fallback');
+        fallbackCopy(text, originalButton, originalBg, originalColor, originalTransform);
+    }
+}
+
+function fallbackCopy(text, originalButton, originalBg, originalColor, originalTransform) {
+    // Fallback for older browsers
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    textArea.style.opacity = '0';
+    textArea.style.pointerEvents = 'none';
+    document.body.appendChild(textArea);
+    
+    try {
+        textArea.focus();
+        textArea.select();
+        textArea.setSelectionRange(0, textArea.value.length);
+        
+        const successful = document.execCommand('copy');
+        if (successful) {
+            console.log('Copy successful via execCommand');
+            showNotification('Content copied to clipboard', 'success');
+            
+            // Reset button after 1.5 seconds
+            setTimeout(() => {
+                originalButton.classList.remove('btn-copy-success');
+                originalButton.style.background = originalBg;
+                originalButton.style.color = originalColor;
+                originalButton.style.transform = originalTransform || 'scale(1)';
+            }, 1500);
+        } else {
+            throw new Error('execCommand copy failed');
+        }
+    } catch (fallbackErr) {
+        console.error('Fallback copy failed:', fallbackErr);
+        showNotification('Failed to copy content - please select and copy manually', 'error');
+        
+        // Reset button immediately on error
+        originalButton.classList.remove('btn-copy-success');
+        originalButton.style.background = originalBg;
+        originalButton.style.color = originalColor;
+        originalButton.style.transform = originalTransform || 'scale(1)';
+    } finally {
+        document.body.removeChild(textArea);
+    }
 }
 
 function downloadContent(elementId, filename) {
     const element = document.getElementById(elementId);
-    const content = element.textContent;
+    if (!element) {
+        showNotification('Content not found', 'error');
+        return;
+    }
+    
+    // Get text content from pre/code tag or direct text content
+    const preElement = element.querySelector('pre');
+    const codeElement = element.querySelector('code');
+    const content = codeElement ? codeElement.textContent : (preElement ? preElement.textContent : element.textContent);
+    
+    if (!content || content.trim() === '') {
+        showNotification('No content to download', 'error');
+        return;
+    }
     
     const blob = new Blob([content], { type: 'text/plain' });
     const url = window.URL.createObjectURL(blob);
@@ -105,25 +237,65 @@ function showNotification(message, type) {
     notification.innerHTML = `
         <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
         <span>${message}</span>
-        <button class="flash-close" onclick="this.parentElement.remove()">
-            <i class="fas fa-times"></i>
-        </button>
     `;
     
-    let container = document.getElementById('flash-messages');
-    if (!container) {
-        container = document.createElement('div');
-        container.id = 'flash-messages';
-        document.body.insertBefore(container, document.body.firstChild);
-    }
-    container.appendChild(notification);
+    document.body.appendChild(notification);
     
     setTimeout(() => {
-        if (notification.parentElement) {
-            notification.remove();
-        }
-    }, 5000);
+        notification.remove();
+    }, 3000);
 }
+
+// Smooth scroll to result section after form submission
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if there's a result section (form was submitted)
+    const resultSection = document.getElementById('result-section');
+    if (resultSection) {
+        // Auto-scroll to result section with professional animation
+        setTimeout(() => {
+            resultSection.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start',
+                inline: 'nearest'
+            });
+            
+            // Add hover effect and highlight
+            resultSection.style.transition = 'all 0.4s ease';
+            resultSection.style.transform = 'translateY(-4px)';
+            resultSection.style.boxShadow = '0 20px 60px rgba(30, 60, 114, 0.15), 0 8px 24px rgba(30, 60, 114, 0.1)';
+            
+            // Add a subtle border glow
+            resultSection.style.border = '2px solid rgba(59, 130, 246, 0.3)';
+            
+            // Reset after 3 seconds
+            setTimeout(() => {
+                resultSection.style.transform = '';
+                resultSection.style.boxShadow = '';
+                resultSection.style.border = '1px solid #e5e7eb';
+            }, 3000);
+        }, 300);
+    }
+    
+    // Add form submission enhancement
+    const form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            // Add loading state to submit button
+            const submitBtn = form.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                submitBtn.disabled = true;
+                
+                // Re-enable after submission (for cases where page doesn't reload)
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }, 5000);
+            }
+        });
+    }
+});
 </script>
 {% endblock %}
 

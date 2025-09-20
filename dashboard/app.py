@@ -8,6 +8,7 @@ import os
 import json
 import hashlib
 import secrets
+import sqlite3
 from datetime import datetime, timedelta
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify, send_file
@@ -26,47 +27,220 @@ app.secret_key = os.environ.get('SECRET_KEY', secrets.token_hex(32))
 
 # Configuration
 app.config['BRM_BACKEND_URL'] = os.environ.get('BRM_BACKEND_URL', 'http://localhost:3000')
-app.config['SESSION_PERMANENT'] = False
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
+app.config['SESSION_PERMANENT'] = True
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)  # 30 days instead of 24 hours
 
-# In-memory storage for demo (in production, use a database)
-users_db = {}
-sessions_db = {}
+# SQLite database for users (sessions remain in memory only)
+DATABASE = 'users.db'
+
+def get_db_connection():
+    """Get database connection"""
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def init_database():
+    """Initialize the database with users table"""
+    conn = get_db_connection()
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            username TEXT PRIMARY KEY,
+            email TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL,
+            role TEXT NOT NULL DEFAULT 'user',
+            status TEXT NOT NULL DEFAULT 'active',
+            last_login TEXT,
+            created_at TEXT NOT NULL
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+def get_user(username):
+    """Get user by username"""
+    conn = get_db_connection()
+    user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
+    conn.close()
+    return dict(user) if user else None
+
+def get_all_users():
+    """Get all users"""
+    conn = get_db_connection()
+    users = conn.execute('SELECT * FROM users ORDER BY created_at DESC').fetchall()
+    conn.close()
+    return {user['username']: dict(user) for user in users}
+
+def create_user(username, email, password, role='user'):
+    """Create a new user"""
+    conn = get_db_connection()
+    try:
+        conn.execute('''
+            INSERT INTO users (username, email, password, role, status, created_at)
+            VALUES (?, ?, ?, ?, 'active', ?)
+        ''', (username, email, generate_password_hash(password), role, datetime.now().isoformat()))
+        conn.commit()
+        return True
+    except sqlite3.IntegrityError:
+        return False
+    finally:
+        conn.close()
+
+def update_user(username, email=None, role=None, status=None, last_login=None):
+    """Update user information"""
+    conn = get_db_connection()
+    updates = []
+    params = []
+    
+    if email is not None:
+        updates.append('email = ?')
+        params.append(email)
+    if role is not None:
+        updates.append('role = ?')
+        params.append(role)
+    if status is not None:
+        updates.append('status = ?')
+        params.append(status)
+    if last_login is not None:
+        updates.append('last_login = ?')
+        params.append(last_login)
+    
+    if updates:
+        params.append(username)
+        conn.execute(f'UPDATE users SET {", ".join(updates)} WHERE username = ?', params)
+        conn.commit()
+    conn.close()
+
+def update_user_password(username, password):
+    """Update user password"""
+    conn = get_db_connection()
+    conn.execute('UPDATE users SET password = ? WHERE username = ?', 
+                (generate_password_hash(password), username))
+    conn.commit()
+    conn.close()
+
+def delete_user(username):
+    """Delete user"""
+    conn = get_db_connection()
+    conn.execute('DELETE FROM users WHERE username = ?', (username,))
+    conn.commit()
+    conn.close()
+
+def user_exists(username):
+    """Check if user exists"""
+    conn = get_db_connection()
+    user = conn.execute('SELECT username FROM users WHERE username = ?', (username,)).fetchone()
+    conn.close()
+    return user is not None
+
+def email_exists(email):
+    """Check if email exists"""
+    conn = get_db_connection()
+    user = conn.execute('SELECT email FROM users WHERE email = ?', (email,)).fetchone()
+    conn.close()
+    return user is not None
+
+# Initialize database and storage
+init_database()
+sessions_db = {}  # Sessions remain in memory only (temporary)
+
+# Global counters for dashboard stats
+conversions_today = 0
+loaded_fields_count = 0
+conversion_date = datetime.now().date()
+
+# Track files created during sessions for cleanup
+session_files = {}  # session_id -> list of file paths
+
+# Session management
+@app.before_request
+def before_request():
+    """Handle session management before each request"""
+    # Make session permanent if user is logged in
+    if 'user_id' in session:
+        session.permanent = True
+        # Refresh session activity
+        session.modified = True
+
+def cleanup_session_files(session_id):
+    """Clean up files created during a session"""
+    if session_id in session_files:
+        for file_path in session_files[session_id]:
+            try:
+                if os.path.exists(file_path):
+                    if os.path.isdir(file_path):
+                        # Remove directory and all contents
+                        import shutil
+                        shutil.rmtree(file_path)
+                        print(f"Cleaned up directory: {file_path}")
+                    else:
+                        # Remove file
+                        os.remove(file_path)
+                        print(f"Cleaned up file: {file_path}")
+            except Exception as e:
+                print(f"Error cleaning up {file_path}: {e}")
+        del session_files[session_id]
+
+def track_session_file(session_id, file_path):
+    """Track a file created during a session for later cleanup"""
+    if session_id not in session_files:
+        session_files[session_id] = []
+    session_files[session_id].append(file_path)
 
 # Inject common template variables
 @app.context_processor
 def inject_globals():
-    current_user = users_db.get(session.get('user_id')) if 'user_id' in session else None
+    current_user = get_user(session.get('user_id')) if 'user_id' in session else None
     return {
         'user': current_user,
         'current_session_id': session.get('brm_session_id') if current_user else None
     }
 
+def migrate_users_from_json():
+    """Migrate users from JSON file to SQLite database"""
+    json_file = 'users.json'
+    if os.path.exists(json_file):
+        try:
+            with open(json_file, 'r') as f:
+                users_data = json.load(f)
+            
+            for username, user_data in users_data.items():
+                if not user_exists(username):
+                    # Create user with existing data
+                    conn = get_db_connection()
+                    conn.execute('''
+                        INSERT INTO users (username, email, password, role, status, last_login, created_at)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                    ''', (
+                        username,
+                        user_data['email'],
+                        user_data['password'],  # Keep existing hashed password
+                        user_data['role'],
+                        user_data['status'],
+                        user_data.get('last_login'),
+                        user_data['created_at']
+                    ))
+                    conn.commit()
+                    conn.close()
+                    print(f"Migrated user: {username}")
+            
+            # Backup the JSON file
+            os.rename(json_file, f"{json_file}.backup")
+            print("User migration completed. JSON file backed up.")
+            
+        except Exception as e:
+            print(f"Error migrating users: {e}")
+
 def init_default_users():
     """Initialize default users for the system"""
-    global users_db
+    # Migrate existing users from JSON first
+    migrate_users_from_json()
     
-    # Default admin user
-    users_db['admin'] = {
-        'username': 'admin',
-        'email': 'admin@brm.com',
-        'password': generate_password_hash('admin123'),
-        'role': 'admin',
-        'status': 'active',
-        'last_login': None,
-        'created_at': datetime.now().isoformat()
-    }
+    # Only add default users if they don't exist
+    if not user_exists('admin'):
+        create_user('admin', 'admin@brm.com', 'admin123', 'admin')
     
-    # Default test user
-    users_db['suresh'] = {
-        'username': 'suresh',
-        'email': 'suresh@brm.com',
-        'password': generate_password_hash('suresh123'),
-        'role': 'user',
-        'status': 'active',
-        'last_login': None,
-        'created_at': datetime.now().isoformat()
-    }
+    if not user_exists('suresh'):
+        create_user('suresh', 'suresh@brm.com', 'suresh123', 'user')
 
 def login_required(f):
     """Decorator to require login for protected routes"""
@@ -86,7 +260,7 @@ def admin_required(f):
             flash('Please log in to access this page.', 'error')
             return redirect(url_for('login'))
         
-        user = users_db.get(session['user_id'])
+        user = get_user(session['user_id'])
         if not user or user['role'] != 'admin':
             flash('Admin access required.', 'error')
             return redirect(url_for('dashboard'))
@@ -97,7 +271,7 @@ def get_current_user():
     """Get current logged-in user"""
     if 'user_id' not in session:
         return None
-    return users_db.get(session['user_id'])
+    return get_user(session['user_id'])
 
 def get_current_session_id():
     """Get current user's BRM session ID"""
@@ -116,6 +290,7 @@ def register_brm_session(session_id: str, username: str) -> bool:
                 'created_at': datetime.now().isoformat(),
                 'status': 'active'
             }
+            # Sessions remain in memory only (temporary)
             return True
     except requests.RequestException as e:
         print(f"Failed to register BRM session: {e}")
@@ -169,7 +344,7 @@ def login():
             flash('Please enter both username and password.', 'error')
             return render_template('login.html')
         
-        user = users_db.get(username)
+        user = get_user(username)
         if not user or user['status'] != 'active':
             flash('Invalid username or account inactive.', 'error')
             return render_template('login.html')
@@ -179,7 +354,7 @@ def login():
             return render_template('login.html')
         
         # Update last login
-        user['last_login'] = datetime.now().isoformat()
+        update_user(username, last_login=datetime.now().isoformat())
         
         # Create session
         session['user_id'] = username
@@ -222,24 +397,18 @@ def register():
             return render_template('register.html')
         
         # Check if user already exists
-        if username in users_db:
+        if user_exists(username):
             flash('Username already exists.', 'error')
             return render_template('register.html')
         
-        if any(user['email'] == email for user in users_db.values()):
+        if email_exists(email):
             flash('Email already registered.', 'error')
             return render_template('register.html')
         
         # Create new user
-        users_db[username] = {
-            'username': username,
-            'email': email,
-            'password': generate_password_hash(password),
-            'role': 'user',
-            'status': 'active',
-            'last_login': None,
-            'created_at': datetime.now().isoformat()
-        }
+        if not create_user(username, email, password, 'user'):
+            flash('Username already exists.', 'error')
+            return render_template('register.html')
         
         flash('Account created successfully! You are now logged in.', 'success')
         
@@ -267,6 +436,10 @@ def logout():
         make_brm_api_request(f'/unregister/{brm_session_id}', 'DELETE')
         if brm_session_id in sessions_db:
             del sessions_db[brm_session_id]
+            # Sessions remain in memory only (temporary)
+        
+        # Clean up files created during this session
+        cleanup_session_files(brm_session_id)
     
     session.clear()
     flash('Logged out successfully.', 'success')
@@ -280,11 +453,19 @@ def dashboard():
     brm_session_id = get_current_session_id()
     
     # Get dashboard stats
+    global conversions_today, loaded_fields_count, conversion_date
+    
+    # Reset conversions counter if it's a new day
+    current_date = datetime.now().date()
+    if current_date != conversion_date:
+        conversions_today = 0
+        conversion_date = current_date
+    
     stats = {
         'active_sessions': len(sessions_db),
-        'loaded_fields': 0,  # This would come from backend
-        'conversions_today': 0,  # This would be tracked
-        'server_status': 'Online'  # This would be checked
+        'loaded_fields': loaded_fields_count,
+        'conversions_today': conversions_today,
+        'server_status': 'Online'
     }
     
     return render_template('dashboard.html', user=user, session_id=brm_session_id, stats=stats)
@@ -301,6 +482,18 @@ def api_health():
     """API endpoint for health check"""
     result = make_brm_api_request('/health')
     return jsonify(result)
+
+@app.route('/api/session-ping', methods=['POST'])
+def api_session_ping():
+    """API endpoint to keep session alive"""
+    if 'user_id' in session:
+        # User is logged in, refresh session
+        session.permanent = True
+        session.modified = True
+        return jsonify({'status': 'active', 'user': session['user_id']})
+    else:
+        # User not logged in
+        return jsonify({'status': 'inactive'}), 401
 
 @app.route('/session-info')
 @login_required
@@ -346,7 +539,11 @@ def load_fields():
         if 'error' in result:
             flash(f'Failed to load fields: {result["error"]}', 'error')
         else:
-            flash('BRM fields loaded successfully!', 'success')
+            global loaded_fields_count
+            # Count the number of fields loaded (assuming each line is a field)
+            field_count = len([line for line in fields_data.strip().split('\n') if line.strip()])
+            loaded_fields_count += field_count
+            flash(f'BRM fields loaded successfully! {field_count} fields added.', 'success')
         
         return render_template('load_fields.html', result=result)
     
@@ -380,6 +577,11 @@ def field_spec_podl():
         
         result = make_brm_api_request(f'/obrm/convert_fld_spec_to_podl/{brm_session_id}', 'POST', field_spec_data)
         
+        # Increment conversions counter if successful
+        if 'error' not in result:
+            global conversions_today
+            conversions_today += 1
+        
         return render_template('field_spec_podl.html', result=result)
     
     return render_template('field_spec_podl.html')
@@ -397,6 +599,11 @@ def class_spec_podl():
             return redirect(url_for('class_spec_podl'))
         
         result = make_brm_api_request(f'/obrm/convert_class_spec_to_podl/{brm_session_id}', 'POST', class_spec_data)
+        
+        # Increment conversions counter if successful
+        if 'error' not in result:
+            global conversions_today
+            conversions_today += 1
         
         return render_template('class_spec_podl.html', result=result)
     
@@ -416,6 +623,11 @@ def flist_to_code():
         
         result = make_brm_api_request(f'/obrm/convert_flist2code/{brm_session_id}', 'POST', flist_data)
         
+        # Increment conversions counter if successful
+        if 'error' not in result:
+            global conversions_today
+            conversions_today += 1
+        
         return render_template('flist_to_code.html', result=result)
     
     return render_template('flist_to_code.html')
@@ -434,6 +646,11 @@ def flist_to_xml():
         
         result = make_brm_api_request(f'/obrm/convert_flist2xml/{brm_session_id}', 'POST', flist_data)
         
+        # Increment conversions counter if successful
+        if 'error' not in result:
+            global conversions_today
+            conversions_today += 1
+        
         return render_template('flist_to_xml.html', result=result)
     
     return render_template('flist_to_xml.html')
@@ -451,6 +668,11 @@ def flist_to_json():
             return redirect(url_for('flist_to_json'))
         
         result = make_brm_api_request(f'/obrm/convert_flist2json/{brm_session_id}', 'POST', flist_data)
+        
+        # Increment conversions counter if successful
+        if 'error' not in result:
+            global conversions_today
+            conversions_today += 1
         
         return render_template('flist_to_json.html', result=result)
     
@@ -500,6 +722,11 @@ def call_stack():
                     html_path = os.path.join(downloads_dir, html_filename)
                     with open(html_path, 'w', encoding='utf-8') as f:
                         f.write(html_content)
+                    
+                    # Track file for cleanup
+                    brm_session_id = get_current_session_id()
+                    if brm_session_id:
+                        track_session_file(brm_session_id, html_path)
 
                     flash('Call stack analysis completed!', 'success')
                     return render_template(
@@ -516,11 +743,20 @@ def call_stack():
                     zip_path = os.path.join(downloads_dir, zip_filename)
                     with open(zip_path, 'wb') as f:
                         f.write(response.content)
+                    
+                    # Track ZIP file for cleanup
+                    brm_session_id = get_current_session_id()
+                    if brm_session_id:
+                        track_session_file(brm_session_id, zip_path)
 
                     # Extract zip to a subdirectory under static/downloads
                     extract_dir_name = f"callstack_analysis_{ts}"
                     extract_dir = os.path.join(downloads_dir, extract_dir_name)
                     os.makedirs(extract_dir, exist_ok=True)
+                    
+                    # Track extracted directory for cleanup
+                    if brm_session_id:
+                        track_session_file(brm_session_id, extract_dir)
 
                     with zipfile.ZipFile(io.BytesIO(response.content)) as zf:
                         zf.extractall(extract_dir)
@@ -555,6 +791,11 @@ def call_stack():
                 txt_path = os.path.join(downloads_dir, txt_filename)
                 with open(txt_path, 'w', encoding='utf-8') as f:
                     f.write(text_content)
+                
+                # Track text file for cleanup
+                brm_session_id = get_current_session_id()
+                if brm_session_id:
+                    track_session_file(brm_session_id, txt_path)
 
                 flash('Call stack analysis completed!', 'success')
                 return render_template(
@@ -588,19 +829,54 @@ def download_file(filename):
 @admin_required
 def admin_panel():
     """Admin panel"""
-    return render_template('admin.html', users=users_db, sessions=sessions_db)
+    return render_template('admin.html', users=get_all_users(), sessions=sessions_db)
 
 @app.route('/admin/users')
 @admin_required
 def admin_users():
     """Admin user management"""
-    return render_template('admin_users.html', users=users_db)
+    return render_template('admin_users.html', users=get_all_users())
 
 @app.route('/admin/sessions')
 @admin_required
 def admin_sessions():
     """Admin session management"""
     return render_template('admin_sessions.html', sessions=sessions_db)
+
+@app.route('/api/sessions')
+@admin_required
+def api_sessions():
+    """API endpoint for getting sessions data"""
+    return jsonify(sessions_db)
+
+@app.route('/admin/delete-session/<session_id>', methods=['DELETE'])
+@admin_required
+def admin_delete_session(session_id):
+    """Delete a specific session"""
+    if session_id in sessions_db:
+        del sessions_db[session_id]
+        # Sessions remain in memory only (temporary)
+        
+        # Clean up files created during this session
+        cleanup_session_files(session_id)
+        
+        return jsonify({'success': True, 'message': f'Session {session_id} deleted successfully'})
+    else:
+        return jsonify({'success': False, 'error': 'Session not found'}), 404
+
+@app.route('/admin/clear-all-sessions', methods=['DELETE'])
+@admin_required
+def admin_clear_all_sessions():
+    """Clear all sessions"""
+    global sessions_db, session_files
+    
+    # Clean up files for all sessions before clearing
+    for session_id in list(sessions_db.keys()):
+        cleanup_session_files(session_id)
+    
+    sessions_db.clear()
+    # Sessions remain in memory only (temporary)
+    return jsonify({'success': True, 'message': 'All sessions cleared successfully'})
 
 @app.route('/admin/add-user', methods=['POST'])
 @admin_required
@@ -615,32 +891,26 @@ def admin_add_user():
         flash('Please fill in all fields.', 'error')
         return redirect(url_for('admin_users'))
     
-    if username in users_db:
+    if user_exists(username):
         flash('Username already exists.', 'error')
         return redirect(url_for('admin_users'))
     
-    if any(user['email'] == email for user in users_db.values()):
+    if email_exists(email):
         flash('Email already registered.', 'error')
         return redirect(url_for('admin_users'))
     
-    users_db[username] = {
-        'username': username,
-        'email': email,
-        'password': generate_password_hash(password),
-        'role': role,
-        'status': 'active',
-        'last_login': None,
-        'created_at': datetime.now().isoformat()
-    }
+    if create_user(username, email, password, role):
+        flash(f'User {username} created successfully.', 'success')
+    else:
+        flash('Failed to create user.', 'error')
     
-    flash(f'User {username} created successfully.', 'success')
     return redirect(url_for('admin_users'))
 
 @app.route('/admin/edit-user/<username>', methods=['POST'])
 @admin_required
 def admin_edit_user(username):
     """Edit user (admin only)"""
-    if username not in users_db:
+    if not user_exists(username):
         flash('User not found.', 'error')
         return redirect(url_for('admin_users'))
     
@@ -651,9 +921,7 @@ def admin_edit_user(username):
         flash('Please fill in all fields.', 'error')
         return redirect(url_for('admin_users'))
     
-    users_db[username]['email'] = email
-    users_db[username]['role'] = role
-    
+    update_user(username, email=email, role=role)
     flash(f'User {username} updated successfully.', 'success')
     return redirect(url_for('admin_users'))
 
@@ -661,7 +929,7 @@ def admin_edit_user(username):
 @admin_required
 def admin_change_password(username):
     """Change user password (admin only)"""
-    if username not in users_db:
+    if not user_exists(username):
         flash('User not found.', 'error')
         return redirect(url_for('admin_users'))
     
@@ -680,7 +948,7 @@ def admin_change_password(username):
         flash('Password must be at least 6 characters.', 'error')
         return redirect(url_for('admin_users'))
     
-    users_db[username]['password'] = generate_password_hash(new_password)
+    update_user_password(username, new_password)
     flash(f'Password updated for user {username}.', 'success')
     return redirect(url_for('admin_users'))
 
@@ -688,7 +956,7 @@ def admin_change_password(username):
 @admin_required
 def admin_toggle_user_status(username):
     """Toggle user status (admin only)"""
-    if username not in users_db:
+    if not user_exists(username):
         flash('User not found.', 'error')
         return redirect(url_for('admin_users'))
     
@@ -696,10 +964,11 @@ def admin_toggle_user_status(username):
         flash('Cannot modify admin user status.', 'error')
         return redirect(url_for('admin_users'))
     
-    current_status = users_db[username]['status']
+    user = get_user(username)
+    current_status = user['status']
     new_status = 'inactive' if current_status == 'active' else 'active'
-    users_db[username]['status'] = new_status
     
+    update_user(username, status=new_status)
     flash(f'User {username} {new_status}.', 'success')
     return redirect(url_for('admin_users'))
 
@@ -707,7 +976,7 @@ def admin_toggle_user_status(username):
 @admin_required
 def admin_delete_user(username):
     """Delete user (admin only)"""
-    if username not in users_db:
+    if not user_exists(username):
         flash('User not found.', 'error')
         return redirect(url_for('admin_users'))
     
@@ -715,7 +984,7 @@ def admin_delete_user(username):
         flash('Cannot delete admin user.', 'error')
         return redirect(url_for('admin_users'))
     
-    del users_db[username]
+    delete_user(username)
     flash(f'User {username} deleted successfully.', 'success')
     return redirect(url_for('admin_users'))
 
@@ -763,12 +1032,22 @@ def timeago_filter(value):
             return value
     return value
 
+def cleanup_all_session_files():
+    """Clean up all session files on app shutdown"""
+    global session_files
+    for session_id in list(session_files.keys()):
+        cleanup_session_files(session_id)
+
 if __name__ == '__main__':
     # Initialize default users
     init_default_users()
     
     # Create necessary directories
     os.makedirs(os.path.join(app.static_folder, 'downloads'), exist_ok=True)
+    
+    # Register cleanup function for app shutdown
+    import atexit
+    atexit.register(cleanup_all_session_files)
     
     # Run the application
     app.run(debug=True, host='0.0.0.0', port=8008)

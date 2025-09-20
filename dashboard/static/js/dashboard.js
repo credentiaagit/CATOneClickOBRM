@@ -56,7 +56,12 @@ function showNotification(message, type = 'info') {
     if (!container) {
         container = document.createElement('div');
         container.id = 'flash-messages';
-        document.body.insertBefore(container, document.body.firstChild);
+        container.style.position = 'fixed';
+        container.style.top = '20px';
+        container.style.right = '20px';
+        container.style.zIndex = '2000';
+        container.style.maxWidth = '400px';
+        document.body.appendChild(container);
     }
     container.appendChild(notification);
     

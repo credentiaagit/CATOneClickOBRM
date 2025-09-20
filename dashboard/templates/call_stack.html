@@ -7,6 +7,17 @@
     {% include 'dashboard_header.html' %}
     
     <main class="main-content">
+        <!-- Breadcrumb Navigation -->
+        <div class="page-breadcrumb">
+            <a href="/dashboard" class="breadcrumb-item">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-item active">
+                <i class="fas fa-layer-group"></i> Call Stack Visualization
+            </span>
+        </div>
+        
         <div class="page-header">
             <h2><i class="fas fa-layer-group"></i> Call Stack Visualization</h2>
             <p>Upload and visualize Oracle BRM call stack traces</p>
@@ -42,38 +53,48 @@
             
             {% if iframe_src or html_content or download_file %}
             <div class="output-container">
-                <h3>Call Stack Analysis</h3>
-                <div class="output-content">
+                <div class="analysis-header">
+                    <h3><i class="fas fa-chart-line"></i> Call Stack Analysis</h3>
                     {% if uploaded_filename or used_threshold %}
-                    <div class="analysis-meta" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 6px;">
-                        {% if uploaded_filename %}
-                        <div><i class="fas fa-file-archive"></i> <strong>File:</strong> {{ uploaded_filename }}</div>
-                        {% endif %}
-                        {% if used_threshold %}
-                        <div><i class="fas fa-stopwatch"></i> <strong>Threshold:</strong> {{ used_threshold }} s</div>
-                        {% endif %}
-                        <div style="margin-left: auto; display: flex; gap: 8px; align-items: center;">
+                    <div class="analysis-meta">
+                        <div class="meta-info">
+                            {% if uploaded_filename %}
+                            <span class="meta-item">
+                                <i class="fas fa-file-archive"></i>
+                                <strong>File:</strong> {{ uploaded_filename }}
+                            </span>
+                            {% endif %}
+                            {% if used_threshold %}
+                            <span class="meta-item">
+                                <i class="fas fa-stopwatch"></i>
+                                <strong>Threshold:</strong> {{ used_threshold }}s
+                            </span>
+                            {% endif %}
+                        </div>
+                        <div class="meta-actions">
                             <button id="toggle-fullscreen" class="btn btn-secondary btn-sm" type="button">
                                 <i class="fas fa-expand"></i> Fullscreen
                             </button>
                             {% if download_file %}
                             <a href="{{ url_for('download_file', filename=download_file) }}" class="btn btn-primary btn-sm">
-                                <i class="fas fa-download"></i> Download Analysis
+                                <i class="fas fa-download"></i> Download
                             </a>
                             {% endif %}
                         </div>
                     </div>
                     {% endif %}
-
-                    <div id="analysis-pane" class="analysis-pane" style="position: relative;">
+                </div>
+                
+                <div class="analysis-content">
+                    <div id="analysis-pane" class="analysis-pane">
                     {% if iframe_src %}
-                        <iframe id="analysis-iframe" src="{{ iframe_src }}" style="width: 100%; height: 80vh; border: 1px solid #ddd; border-radius: 8px; background: #fff;"></iframe>
+                        <iframe id="analysis-iframe" src="{{ iframe_src }}"></iframe>
                     {% elif html_content %}
-                        <div id="analysis-inline" style="width: 100%; min-height: 80vh; border: 1px solid #ddd; border-radius: 8px; background: #fff; padding: 10px; overflow: auto;">{{ html_content|safe }}</div>
+                        <div id="analysis-inline">{{ html_content|safe }}</div>
                     {% else %}
-                        <div style="text-align: center; padding: 20px;">
-                            <i class="fas fa-download" style="font-size: 3rem; color: #28a745; margin-bottom: 15px;"></i>
-                            <h3>Analysis Complete!</h3>
+                        <div class="analysis-complete">
+                            <i class="fas fa-check-circle"></i>
+                            <h4>Analysis Complete!</h4>
                             <p>Your call stack analysis has been generated.</p>
                         </div>
                     {% endif %}

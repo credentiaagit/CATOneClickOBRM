@@ -11,6 +11,9 @@
                 <i class="fas fa-bars"></i>
             </button>
             <h1><i class="fas fa-database"></i> Oracle BRM Dashboard</h1>
+            <div class="company-info">
+                <span class="company-name">Credentia Automations Solution</span>
+            </div>
         </div>
         <div class="header-right">
             <div class="user-info">
@@ -25,7 +28,7 @@
                             <i class="fas fa-users-cog"></i> Admin Panel
                         </a>
                         {% endif %}
-                        <a href="{{ url_for('logout') }}">
+                        <a href="#" onclick="confirmLogout(event)">
                             <i class="fas fa-sign-out-alt"></i> Logout
                         </a>
                     </div>
@@ -110,6 +113,13 @@
 
     <!-- Main Content -->
     <main class="main-content">
+        <!-- Breadcrumb Navigation -->
+        <div class="page-breadcrumb">
+            <span class="breadcrumb-item active">
+                <i class="fas fa-home"></i> Dashboard
+            </span>
+        </div>
+        
         <div class="page-header">
             <h2><i class="fas fa-chart-dashboard"></i> Dashboard Overview</h2>
             <p>Welcome to the Oracle BRM Management Dashboard</p>
@@ -161,7 +171,6 @@
             <div class="section">
                 <h3><i class="fas fa-info-circle"></i> Current Session</h3>
                 <div class="session-info">
-                    <p><strong>Session ID:</strong> <code>{{ session_id or 'No active session' }}</code></p>
                     <p><strong>User:</strong> {{ user.username }} ({{ user.role }})</p>
                     <p><strong>Last Login:</strong> {{ user.last_login | datetime if user.last_login else 'Never' }}</p>
                 </div>

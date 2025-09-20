@@ -7,6 +7,21 @@
     {% include 'dashboard_header.html' %}
     
     <main class="main-content">
+        <!-- Breadcrumb Navigation -->
+        <div class="page-breadcrumb">
+            <a href="/dashboard" class="breadcrumb-item">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <span class="breadcrumb-separator">/</span>
+            <a href="/admin" class="breadcrumb-item">
+                <i class="fas fa-cog"></i> Admin Panel
+            </a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-item active">
+                <i class="fas fa-users"></i> User Management
+            </span>
+        </div>
+        
         <div class="page-header">
             <h2><i class="fas fa-users"></i> User Management</h2>
             <p>Manage system users and permissions</p>

@@ -27,7 +27,249 @@
 
     {% block content %}{% endblock %}
 
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <p>&copy; 2024 Credentia Automations Solution. All rights reserved.</p>
+            </div>
+            <div class="footer-right">
+                <p>Oracle BRM Management Dashboard</p>
+            </div>
+        </div>
+    </footer>
+
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    
+    <!-- Breadcrumb Functionality -->
+    <script>
+    // Page breadcrumb configuration
+    const pageBreadcrumbs = {
+        '/dashboard': [
+            { name: 'Dashboard', icon: 'fas fa-home', url: '/dashboard' }
+        ],
+        '/health': [
+            { name: 'Dashboard', icon: 'fas fa-home', url: '/dashboard' },
+            { name: 'Health Check', icon: 'fas fa-heartbeat', url: '/health' }
+        ],
+        '/session-info': [
+            { name: 'Dashboard', icon: 'fas fa-home', url: '/dashboard' },
+            { name: 'Session Info', icon: 'fas fa-info-circle', url: '/session-info' }
+        ],
+        '/admin': [
+            { name: 'Dashboard', icon: 'fas fa-home', url: '/dashboard' },
+            { name: 'Admin Panel', icon: 'fas fa-cog', url: '/admin' }
+        ],
+        '/admin/users': [
+            { name: 'Dashboard', icon: 'fas fa-home', url: '/dashboard' },
+            { name: 'Admin Panel', icon: 'fas fa-cog', url: '/admin' },
+            { name: 'User Management', icon: 'fas fa-users', url: '/admin/users' }
+        ],
+        '/admin/sessions': [
+            { name: 'Dashboard', icon: 'fas fa-home', url: '/dashboard' },
+            { name: 'Admin Panel', icon: 'fas fa-cog', url: '/admin' },
+            { name: 'Sessions', icon: 'fas fa-users', url: '/admin/sessions' }
+        ],
+        '/field-spec-podl': [
+            { name: 'Dashboard', icon: 'fas fa-home', url: '/dashboard' },
+            { name: 'Field Spec to PODL', icon: 'fas fa-file-code', url: '/field-spec-podl' }
+        ],
+        '/class-spec-podl': [
+            { name: 'Dashboard', icon: 'fas fa-home', url: '/dashboard' },
+            { name: 'Class Spec to PODL', icon: 'fas fa-sitemap', url: '/class-spec-podl' }
+        ],
+        '/view-fields': [
+            { name: 'Dashboard', icon: 'fas fa-home', url: '/dashboard' },
+            { name: 'View Session Fields', icon: 'fas fa-list', url: '/view-fields' }
+        ],
+        '/load-fields': [
+            { name: 'Dashboard', icon: 'fas fa-home', url: '/dashboard' },
+            { name: 'Load BRM Fields', icon: 'fas fa-upload', url: '/load-fields' }
+        ],
+        '/flist-to-json': [
+            { name: 'Dashboard', icon: 'fas fa-home', url: '/dashboard' },
+            { name: 'FLIST to JSON', icon: 'fas fa-file-alt', url: '/flist-to-json' }
+        ],
+        '/flist-to-xml': [
+            { name: 'Dashboard', icon: 'fas fa-home', url: '/dashboard' },
+            { name: 'FLIST to XML', icon: 'fas fa-file-code', url: '/flist-to-xml' }
+        ],
+        '/flist-to-code': [
+            { name: 'Dashboard', icon: 'fas fa-home', url: '/dashboard' },
+            { name: 'FLIST to C Code', icon: 'fas fa-code', url: '/flist-to-code' }
+        ],
+        '/call-stack': [
+            { name: 'Dashboard', icon: 'fas fa-home', url: '/dashboard' },
+            { name: 'Call Stack Visualization', icon: 'fas fa-layer-group', url: '/call-stack' }
+        ]
+    };
+    
+    // Function to generate breadcrumbs
+    function generateBreadcrumbs() {
+        const currentPath = window.location.pathname;
+        const breadcrumbConfig = pageBreadcrumbs[currentPath];
+        
+        if (!breadcrumbConfig) return;
+        
+        const breadcrumbContainer = document.querySelector('.page-breadcrumb');
+        if (!breadcrumbContainer) return;
+        
+        let breadcrumbHTML = '';
+        
+        breadcrumbConfig.forEach((item, index) => {
+            const isLast = index === breadcrumbConfig.length - 1;
+            
+            if (isLast) {
+                breadcrumbHTML += `
+                    <span class="breadcrumb-item active">
+                        <i class="${item.icon}"></i> ${item.name}
+                    </span>
+                `;
+            } else {
+                breadcrumbHTML += `
+                    <a href="${item.url}" class="breadcrumb-item">
+                        <i class="${item.icon}"></i> ${item.name}
+                    </a>
+                `;
+                
+                if (index < breadcrumbConfig.length - 1) {
+                    breadcrumbHTML += '<span class="breadcrumb-separator">/</span>';
+                }
+            }
+        });
+        
+        breadcrumbContainer.innerHTML = breadcrumbHTML;
+    }
+    
+    // Initialize breadcrumbs when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        generateBreadcrumbs();
+    });
+    
+    // Session management - prevent automatic logout
+    let sessionWarningShown = false;
+    let lastActivity = Date.now();
+    let inactivityTimer = null;
+    let warningTimer = null;
+    
+    // Track user activity
+    function updateActivity() {
+        lastActivity = Date.now();
+        // Clear any existing timers
+        if (inactivityTimer) clearTimeout(inactivityTimer);
+        if (warningTimer) clearTimeout(warningTimer);
+        sessionWarningShown = false;
+        
+        // Set new inactivity timer (30 minutes of inactivity)
+        inactivityTimer = setTimeout(function() {
+            showSessionWarning();
+        }, 30 * 60 * 1000); // 30 minutes
+    }
+    
+    // Show session warning
+    function showSessionWarning() {
+        if (sessionWarningShown) return;
+        sessionWarningShown = true;
+        
+        const warning = document.createElement('div');
+        warning.id = 'session-warning';
+        warning.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ff6b6b;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 10000;
+            max-width: 300px;
+            font-family: 'Segoe UI', sans-serif;
+        `;
+        warning.innerHTML = `
+            <h4 style="margin: 0 0 10px 0; font-size: 16px;">Session Timeout Warning</h4>
+            <p style="margin: 0 0 15px 0; font-size: 14px;">You've been inactive for 30 minutes. Click "Stay Logged In" to continue your session.</p>
+            <div style="display: flex; gap: 10px;">
+                <button onclick="extendSession()" style="background: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 14px;">Stay Logged In</button>
+                <button onclick="logoutNow()" style="background: #f44336; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 14px;">Logout</button>
+            </div>
+        `;
+        document.body.appendChild(warning);
+        
+        // Auto-logout after 5 minutes of warning
+        warningTimer = setTimeout(function() {
+            logoutNow();
+        }, 5 * 60 * 1000); // 5 minutes
+    }
+    
+    // Extend session
+    function extendSession() {
+        const warning = document.getElementById('session-warning');
+        if (warning) warning.remove();
+        updateActivity();
+    }
+    
+    // Logout immediately
+    function logoutNow() {
+        window.location.href = '{{ url_for("logout") }}';
+    }
+    
+    // Track various user activities
+    ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'].forEach(function(name) {
+        document.addEventListener(name, updateActivity, true);
+    });
+    
+    // Initialize activity tracking
+    updateActivity();
+    
+    // Handle page visibility changes
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            // Page is hidden (tab switched or minimized)
+            console.log('Page hidden - session remains active');
+        } else {
+            // Page is visible again
+            console.log('Page visible - session active');
+        }
+    });
+    
+    // Handle beforeunload (page refresh/close)
+    window.addEventListener('beforeunload', function(e) {
+        // Only show warning if user has unsaved changes or wants to confirm
+        // For now, we'll let the session persist
+        console.log('Page unloading - session will persist');
+    });
+    
+    // Keep session alive with periodic activity
+    setInterval(function() {
+        // Only if user is on the page and logged in
+        if (!document.hidden && document.body) {
+            // Make a lightweight request to keep session alive
+            fetch('/api/session-ping', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({timestamp: Date.now()})
+            }).catch(function(error) {
+                // Ignore errors - this is just a keep-alive
+                console.log('Session ping failed (normal if not logged in)');
+            });
+        }
+    }, 300000); // Every 5 minutes
+    
+    // Logout confirmation function
+    function confirmLogout(event) {
+        event.preventDefault();
+        
+        if (confirm('Are you sure you want to logout? Your session will end and you will need to login again.')) {
+            // User confirmed, proceed with logout
+            window.location.href = '{{ url_for("logout") }}';
+        }
+        // If user cancels, do nothing (stay logged in)
+    }
+    </script>
+    
     {% block scripts %}{% endblock %}
 </body>
 </html>
