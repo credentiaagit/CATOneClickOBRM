@@ -57,12 +57,12 @@ echo -e "${YELLOW}⏳ Waiting for backend to start...${NC}"
 sleep 5
 
 # Check if backend is running
-if ! curl -s http://localhost:3000/health > /dev/null 2>&1; then
+if ! curl -s http://147.79.70.86:3000/health > /dev/null 2>&1; then
     echo -e "${RED}❌ Failed to start Rust backend${NC}"
     exit 1
 fi
 
-echo -e "${GREEN}✅ Rust backend started on http://localhost:3000${NC}"
+echo -e "${GREEN}✅ Rust backend started on http://147.79.70.86:3000${NC}"
 
 # Check Python and pip availability
 echo -e "${BLUE}🐍 Checking Python environment...${NC}"
@@ -110,20 +110,20 @@ echo -e "${YELLOW}⏳ Waiting for Flask server to start...${NC}"
 sleep 5
 
 # Check if Flask server is accessible
-if ! curl -s http://localhost:8008 > /dev/null 2>&1; then
+if ! curl -s http://147.79.70.86:8008 > /dev/null 2>&1; then
     echo -e "${RED}❌ Failed to start Flask server${NC}"
     echo -e "${YELLOW}📋 Flask log output:${NC}"
     tail -20 dashboard/flask.log
     exit 1
 fi
 
-echo -e "${GREEN}✅ Flask dashboard started on http://localhost:8008${NC}"
+echo -e "${GREEN}✅ Flask dashboard started on http://147.79.70.86:8008${NC}"
 
 # Display startup information
 echo -e "\n${GREEN}🎉 Oracle BRM Flask Dashboard is ready!${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${GREEN}📊 Dashboard:${NC} http://localhost:8008"
-echo -e "${GREEN}🔧 Backend API:${NC} http://localhost:3000"
+echo -e "${GREEN}📊 Dashboard:${NC} http://147.79.70.86:8008"
+echo -e "${GREEN}🔧 Backend API:${NC} http://147.79.70.86:3000"
 echo -e "${GREEN}💻 Server:${NC} Flask Development Server"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 
@@ -143,7 +143,7 @@ echo -e "   • POST /obrm/convert_* - Various conversion endpoints"
 echo -e "   • POST /obrm/view_call_stack - Call stack visualization"
 
 echo -e "\n${BLUE}📖 Documentation:${NC} See dashboard/README.md for detailed usage instructions"
-echo -e "\n${GREEN}🔍 Open your browser and navigate to http://localhost:8008 to get started!${NC}"
+echo -e "\n${GREEN}🔍 Open your browser and navigate to http://147.79.70.86:8008 to get started!${NC}"
 
 # Keep the script running
 echo -e "\n${YELLOW}Press Ctrl+C to stop all services${NC}\n"

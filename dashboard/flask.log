@@ -7,40 +7,41 @@ WARNING: This is a development server. Do not use it in a production deployment.
 Press CTRL+C to quit
  * Restarting with stat
  * Debugger is active!
- * Debugger PIN: 544-997-550
-127.0.0.1 - - [19/Sep/2025 01:13:18] "GET / HTTP/1.1" 302 -
-223.185.27.161 - - [19/Sep/2025 01:14:23] "GET / HTTP/1.1" 302 -
-223.185.27.161 - - [19/Sep/2025 01:14:23] "GET /login HTTP/1.1" 200 -
-223.185.27.161 - - [19/Sep/2025 01:14:23] "GET /static/css/styles.css HTTP/1.1" 304 -
-223.185.27.161 - - [19/Sep/2025 01:14:23] "GET /static/js/dashboard.js HTTP/1.1" 304 -
-223.185.27.161 - - [19/Sep/2025 01:14:24] "GET /favicon.ico HTTP/1.1" 404 -
-223.185.27.161 - - [19/Sep/2025 01:14:30] "POST /login HTTP/1.1" 302 -
-223.185.27.161 - - [19/Sep/2025 01:14:31] "GET /dashboard HTTP/1.1" 200 -
-223.185.27.161 - - [19/Sep/2025 01:14:31] "GET /static/css/styles.css HTTP/1.1" 304 -
-223.185.27.161 - - [19/Sep/2025 01:14:31] "GET /static/js/dashboard.js HTTP/1.1" 304 -
-223.185.27.161 - - [19/Sep/2025 01:14:38] "GET /admin HTTP/1.1" 200 -
-223.185.27.161 - - [19/Sep/2025 01:14:39] "GET /static/css/styles.css HTTP/1.1" 304 -
-223.185.27.161 - - [19/Sep/2025 01:14:39] "GET /static/js/dashboard.js HTTP/1.1" 304 -
-223.185.27.161 - - [19/Sep/2025 01:14:42] "GET /admin/sessions HTTP/1.1" 200 -
-223.185.27.161 - - [19/Sep/2025 01:14:42] "GET /static/css/styles.css HTTP/1.1" 304 -
-223.185.27.161 - - [19/Sep/2025 01:14:42] "GET /static/js/dashboard.js HTTP/1.1" 304 -
-223.185.27.161 - - [19/Sep/2025 01:14:45] "GET /admin HTTP/1.1" 200 -
-223.185.27.161 - - [19/Sep/2025 01:14:45] "GET /static/css/styles.css HTTP/1.1" 304 -
-223.185.27.161 - - [19/Sep/2025 01:14:45] "GET /static/js/dashboard.js HTTP/1.1" 304 -
-223.185.27.161 - - [19/Sep/2025 01:14:46] "GET /admin/sessions HTTP/1.1" 200 -
-223.185.27.161 - - [19/Sep/2025 01:14:46] "GET /static/css/styles.css HTTP/1.1" 304 -
-223.185.27.161 - - [19/Sep/2025 01:14:47] "GET /static/js/dashboard.js HTTP/1.1" 304 -
-223.185.27.161 - - [19/Sep/2025 01:14:48] "GET /admin HTTP/1.1" 200 -
-223.185.27.161 - - [19/Sep/2025 01:14:48] "GET /static/css/styles.css HTTP/1.1" 304 -
-223.185.27.161 - - [19/Sep/2025 01:14:48] "GET /static/js/dashboard.js HTTP/1.1" 304 -
-223.185.27.161 - - [19/Sep/2025 01:14:49] "GET /admin/users HTTP/1.1" 200 -
-223.185.27.161 - - [19/Sep/2025 01:14:49] "GET /static/css/styles.css HTTP/1.1" 304 -
-223.185.27.161 - - [19/Sep/2025 01:14:49] "GET /static/js/dashboard.js HTTP/1.1" 304 -
-223.185.27.161 - - [19/Sep/2025 01:15:22] "POST /admin/add-user HTTP/1.1" 302 -
-223.185.27.161 - - [19/Sep/2025 01:15:22] "GET /admin/users HTTP/1.1" 200 -
-223.185.27.161 - - [19/Sep/2025 01:15:22] "GET /static/css/styles.css HTTP/1.1" 304 -
-223.185.27.161 - - [19/Sep/2025 01:15:22] "GET /static/js/dashboard.js HTTP/1.1" 304 -
- * Detected change in '/opt/apps/CATOneClickOBRM/dashboard/app.py', reloading
- * Restarting with stat
- * Debugger is active!
- * Debugger PIN: 544-997-550
+ * Debugger PIN: 487-672-143
+147.79.70.86 - - [23/Sep/2025 02:20:00] "GET / HTTP/1.1" 302 -
+223.185.26.151 - - [23/Sep/2025 02:20:05] "GET / HTTP/1.1" 302 -
+223.185.26.151 - - [23/Sep/2025 02:20:05] "GET /login HTTP/1.1" 200 -
+223.185.26.151 - - [23/Sep/2025 02:20:06] "GET /static/css/styles.css HTTP/1.1" 304 -
+223.185.26.151 - - [23/Sep/2025 02:20:06] "GET /static/js/dashboard.js HTTP/1.1" 304 -
+223.185.26.151 - - [23/Sep/2025 02:20:06] "GET /favicon.ico HTTP/1.1" 404 -
+223.185.26.151 - - [23/Sep/2025 02:20:15] "POST /login HTTP/1.1" 302 -
+223.185.26.151 - - [23/Sep/2025 02:20:15] "GET /dashboard HTTP/1.1" 200 -
+223.185.26.151 - - [23/Sep/2025 02:20:15] "GET /static/css/styles.css HTTP/1.1" 304 -
+223.185.26.151 - - [23/Sep/2025 02:20:15] "GET /static/js/dashboard.js HTTP/1.1" 304 -
+223.185.26.151 - - [23/Sep/2025 02:20:20] "GET /call-stack HTTP/1.1" 200 -
+223.185.26.151 - - [23/Sep/2025 02:20:20] "GET /static/css/styles.css HTTP/1.1" 304 -
+223.185.26.151 - - [23/Sep/2025 02:20:20] "GET /static/js/dashboard.js HTTP/1.1" 304 -
+223.185.26.151 - - [23/Sep/2025 02:20:30] "POST /call-stack HTTP/1.1" 200 -
+223.185.26.151 - - [23/Sep/2025 02:20:30] "GET /static/css/styles.css HTTP/1.1" 304 -
+223.185.26.151 - - [23/Sep/2025 02:20:30] "GET /static/js/dashboard.js HTTP/1.1" 304 -
+223.185.26.151 - - [23/Sep/2025 02:20:30] "GET /static/downloads/callstack_analysis_1758608430/callstack_analysis_report.html HTTP/1.1" 200 -
+223.185.26.151 - - [23/Sep/2025 02:20:56] "GET /download/callstack_analysis_1758608430.zip HTTP/1.1" 200 -
+223.185.26.151 - - [23/Sep/2025 02:40:18] "POST /call-stack HTTP/1.1" 200 -
+223.185.26.151 - - [23/Sep/2025 02:40:18] "GET /static/css/styles.css HTTP/1.1" 200 -
+223.185.26.151 - - [23/Sep/2025 02:40:18] "GET /static/downloads/callstack_analysis_1758609618/callstack_analysis_report.html HTTP/1.1" 200 -
+223.185.26.151 - - [23/Sep/2025 02:40:18] "GET /static/js/dashboard.js HTTP/1.1" 304 -
+223.185.26.151 - - [23/Sep/2025 02:42:56] "POST /call-stack HTTP/1.1" 200 -
+223.185.26.151 - - [23/Sep/2025 02:42:56] "GET /static/css/styles.css HTTP/1.1" 304 -
+223.185.26.151 - - [23/Sep/2025 02:42:56] "GET /static/downloads/callstack_analysis_1758609776/callstack_analysis_report.html HTTP/1.1" 200 -
+223.185.26.151 - - [23/Sep/2025 02:42:56] "GET /static/js/dashboard.js HTTP/1.1" 304 -
+223.185.26.151 - - [23/Sep/2025 02:42:59] "GET /static/downloads/callstack_analysis_1758609776/callstack_analysis_report.html HTTP/1.1" 200 -
+223.185.26.151 - - [23/Sep/2025 02:45:57] "GET /static/downloads/callstack_analysis_1758609776/callstack_analysis_report.html HTTP/1.1" 304 -
+223.185.26.151 - - [23/Sep/2025 02:48:05] "GET /static/downloads/callstack_analysis_1758609776/callstack_analysis_report.html HTTP/1.1" 304 -
+223.185.26.151 - - [23/Sep/2025 02:57:25] "GET / HTTP/1.1" 302 -
+223.185.26.151 - - [23/Sep/2025 02:57:25] "GET /dashboard HTTP/1.1" 200 -
+223.185.26.151 - - [23/Sep/2025 02:57:25] "GET /static/css/styles.css HTTP/1.1" 200 -
+223.185.26.151 - - [23/Sep/2025 02:57:25] "GET /static/js/dashboard.js HTTP/1.1" 304 -
+223.185.26.151 - - [23/Sep/2025 02:57:34] "GET / HTTP/1.1" 302 -
+223.185.26.151 - - [23/Sep/2025 02:57:35] "GET /dashboard HTTP/1.1" 200 -
+223.185.26.151 - - [23/Sep/2025 02:57:35] "GET /static/js/dashboard.js HTTP/1.1" 304 -
+223.185.26.151 - - [23/Sep/2025 02:57:35] "GET /static/css/styles.css HTTP/1.1" 304 -

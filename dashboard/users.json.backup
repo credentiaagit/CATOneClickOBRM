@@ -1,0 +1,38 @@
+{
+  "admin": {
+    "username": "admin",
+    "email": "admin@brm.com",
+    "password": "pbkdf2:sha256:600000$lX540J8TeJ63MFgK$43f7039efbb101a27a515f4ed56480273fec70f26398ba7a2867c7332d954ea0",
+    "role": "admin",
+    "status": "active",
+    "last_login": "2025-09-19T01:14:30.446382",
+    "created_at": "2025-09-18T09:38:19.983993"
+  },
+  "suresh": {
+    "username": "suresh",
+    "email": "suresh@brm.com",
+    "password": "pbkdf2:sha256:600000$59KCZtYA64ZdXnr5$40a0b8a69e29173ec9efcfb3ba6c36d1552da70cf12277bd61a0ca4ef1d79367",
+    "role": "user",
+    "status": "active",
+    "last_login": null,
+    "created_at": "2025-09-18T09:38:20.136226"
+  },
+  "ak": {
+    "username": "ak",
+    "email": "ak@gmail.com",
+    "password": "pbkdf2:sha256:600000$jdIzMhmX2Cai0nHZ$d040acdb556d4f7e003e14cbd957e7968d826ca9af51e8da0461b3ba7237b7e3",
+    "role": "user",
+    "status": "active",
+    "last_login": null,
+    "created_at": "2025-09-18T09:44:28.925888"
+  },
+  "Akash": {
+    "username": "Akash",
+    "email": "akashkumarar2003@gmail.com",
+    "password": "pbkdf2:sha256:600000$JPzNOq08GOZPxpAV$9c67a92368d34129aea5160644c986d6ba575da98e203d0f07d9b9f23157233e",
+    "role": "admin",
+    "status": "active",
+    "last_login": null,
+    "created_at": "2025-09-19T01:15:22.451379"
+  }
+}
