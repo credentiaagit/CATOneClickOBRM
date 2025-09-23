@@ -1494,14 +1494,24 @@ body {
 
 .analysis-pane {
     position: relative;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 20px;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease-in-out;
+    width: 100%;
+    height: 70vh;
+    min-height: 500px;
 }
 
 .analysis-pane iframe {
     width: 100%;
-    height: 70vh;
+    height: 100%;
     border: none;
-    background: #ffffff;
     display: block;
+    background: #fff;
 }
 
 .analysis-pane #analysis-inline {
@@ -1511,7 +1521,7 @@ body {
     background: #ffffff;
     overflow: auto;
     font-family: 'Courier New', monospace;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     line-height: 1.5;
 }
 
@@ -1542,23 +1552,29 @@ body {
     font-size: 0.95rem;
 }
 
-/* Fullscreen Mode */
-.analysis-pane.fullscreen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 2000;
-    background: #ffffff;
+/* New Tab Button */
+.btn-new-tab {
+    background-color: #4a6fdc;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.875rem;
+    transition: background-color 0.2s;
 }
 
-.analysis-pane.fullscreen iframe {
-    height: 100vh;
+.btn-new-tab:hover {
+    background-color: #3a5bc7;
+    color: white;
+    text-decoration: none;
 }
 
-.analysis-pane.fullscreen #analysis-inline {
-    min-height: 100vh;
+.btn-new-tab i {
+    font-size: 0.8em;
 }
 
 /* Responsive Design */

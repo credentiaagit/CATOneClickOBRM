@@ -72,9 +72,11 @@
                             {% endif %}
                         </div>
                         <div class="meta-actions">
-                            <button id="toggle-fullscreen" class="btn btn-secondary btn-sm" type="button">
-                                <i class="fas fa-expand"></i> Fullscreen
+                            {% if iframe_src or html_content %}
+                            <button id="open-new-tab" class="btn-new-tab" type="button">
+                                <i class="fas fa-external-link-alt"></i> Open in New Tab
                             </button>
+                            {% endif %}
                             {% if download_file %}
                             <a href="{{ url_for('download_file', filename=download_file) }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-download"></i> Download
@@ -152,51 +154,112 @@ fileLabel.addEventListener('drop', function(e) {
     }
 });
 
-// Fullscreen toggle for analysis pane
+// Open analysis in new tab
 document.addEventListener('DOMContentLoaded', function() {
-    const pane = document.getElementById('analysis-pane');
-    const toggleBtn = document.getElementById('toggle-fullscreen');
-    if (!pane || !toggleBtn) return;
+    const openNewTabBtn = document.getElementById('open-new-tab');
+    if (!openNewTabBtn) return;
 
-    let isFullscreen = false;
-
-    function enterFullscreen() {
-        pane.classList.add('fullscreen');
-        pane.style.position = 'fixed';
-        pane.style.top = '0';
-        pane.style.left = '0';
-        pane.style.width = '100vw';
-        pane.style.height = '100vh';
-        pane.style.zIndex = '2000';
-        pane.style.background = '#fff';
+    openNewTabBtn.addEventListener('click', function() {
+        // Get the analysis content or iframe source
         const iframe = document.getElementById('analysis-iframe');
-        const inlineDiv = document.getElementById('analysis-inline');
-        if (iframe) iframe.style.height = '100vh';
-        if (inlineDiv) inlineDiv.style.minHeight = '100vh';
-        toggleBtn.innerHTML = '<i class="fas fa-compress"></i> Exit Fullscreen';
-        isFullscreen = true;
-    }
-
-    function exitFullscreen() {
-        pane.classList.remove('fullscreen');
-        pane.style.position = 'relative';
-        pane.style.width = '100%';
-        pane.style.height = '';
-        pane.style.zIndex = '';
-        pane.style.background = '';
-        const iframe = document.getElementById('analysis-iframe');
-        const inlineDiv = document.getElementById('analysis-inline');
-        if (iframe) iframe.style.height = '70vh';
-        if (inlineDiv) inlineDiv.style.minHeight = '70vh';
-        toggleBtn.innerHTML = '<i class="fas fa-expand"></i> Fullscreen';
-        isFullscreen = false;
-    }
-
-    toggleBtn.addEventListener('click', function() {
-        if (!isFullscreen) {
-            enterFullscreen();
-        } else {
-            exitFullscreen();
+        const inlineContent = document.getElementById('analysis-inline');
+        
+        if (iframe && iframe.src) {
+            // If using iframe, open the iframe source in a new tab
+            window.open(iframe.src, '_blank');
+        } else if (inlineContent) {
+            // If using inline content, create a new window with the content
+            const newWindow = window.open('', '_blank');
+            newWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Call Stack Analysis</title>
+                    <meta charset="utf-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+                    <style>
+                        body { 
+                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                            margin: 0; 
+                            padding: 20px; 
+                            background-color: #f8f9fa;
+                        }
+                        .analysis-container { 
+                            max-width: 1200px; 
+                            margin: 0 auto; 
+                            background: white; 
+                            padding: 20px; 
+                            border-radius: 8px; 
+                            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                        }
+                        .analysis-header { 
+                            display: flex; 
+                            justify-content: space-between; 
+                            align-items: center; 
+                            margin-bottom: 20px; 
+                            padding-bottom: 15px; 
+                            border-bottom: 1px solid #eee;
+                        }
+                        .analysis-header h2 { 
+                            margin: 0; 
+                            color: #2c3e50;
+                        }
+                        .analysis-actions { 
+                            display: flex; 
+                            gap: 10px; 
+                        }
+                        .btn-print { 
+                            background-color: #4a6fdc; 
+                            color: white; 
+                            border: none; 
+                            padding: 8px 15px; 
+                            border-radius: 4px; 
+                            cursor: pointer; 
+                            display: flex; 
+                            align-items: center; 
+                            gap: 5px;
+                        }
+                        .btn-print:hover { 
+                            background-color: #3a5bc7; 
+                        }
+                        @media print {
+                            .no-print { 
+                                display: none; 
+                            }
+                            body { 
+                                padding: 0; 
+                                background: white; 
+                            }
+                            .analysis-container { 
+                                box-shadow: none; 
+                                padding: 0; 
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="analysis-container">
+                        <div class="analysis-header">
+                            <h2>Call Stack Analysis Report</h2>
+                            <div class="analysis-actions no-print">
+                                <button onclick="window.print()" class="btn-print">
+                                    <i class="fas fa-print"></i> Print
+                                </button>
+                                <button onclick="window.close()" class="btn-print" style="background-color: #6c757d;">
+                                    <i class="fas fa-times"></i> Close
+                                </button>
+                            </div>
+                        </div>
+                        <div class="analysis-content">
+                            ${inlineContent.outerHTML}
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `);
+            newWindow.document.close();
         }
     });
 });
